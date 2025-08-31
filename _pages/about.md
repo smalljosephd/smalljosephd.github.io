@@ -15,7 +15,7 @@ My name is **Joseph David** (christened Joseph Tolúwaṣẹ Ọláolúwa Bab
 
 I was previously affiliated with the <a href="https://lbs.edu.ng" style="text-decoration: none" target="_blank">Lagos Business School, Pan-Atlantic University</a>, Lagos, where I worked as a Research and Teaching Assistant under the mentorship of <a href="https://www.lbs.edu.ng/faculty_profiles/akintola-owolabi/" style="text-decoration: none" target="_blank">Professor Akintola Owolabi</a>. I left Lagos Business School in August 2023 to pursue a graduate degree.
 
-Before joining Lagos Business School, I was mentored by <a href="https://scholar.google.com.my/citations?user=U2rrsr4AAAAJ&hl=en" style="text-decoration: none" target="_blank">Professor Nurudeen Abu</a> and <a href="https://scholar.google.com/citations?hl=en&user=jklNds0AAAAJ" style="text-decoration: none" target="_blank">Dr. Musa Abdullahi Sakanko</a>, contributing to several interesting research questions under their guidance.
+[//]: # "Before joining Lagos Business School, I was mentored by <a href="https://scholar.google.com.my/citations?user=U2rrsr4AAAAJ&hl=en" style="text-decoration: none" target="_blank">Professor Nurudeen Abu</a> and <a href="https://scholar.google.com/citations?hl=en&user=jklNds0AAAAJ" style="text-decoration: none" target="_blank">Dr. Musa Abdullahi Sakanko</a>, contributing to several interesting research questions under their guidance."
 
 <h2>Research Theme</h2>
 The central theme of my research interests broadly lies at the intersection of illicit activities (such as corruption, money laundering, and underground economic activities), fiscal sustainability, and sustainable economic development in developing resource-rich economies.
