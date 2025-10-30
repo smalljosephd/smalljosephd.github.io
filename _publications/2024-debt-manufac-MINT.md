@@ -10,5 +10,5 @@ link: 'https://doi.org/10.1007/s13132-024-02430-w'
 data: 'https://github.com/SmallJosePhD/External-debt-and-manufacturing/blob/main/Data%20used.dta'
 github: 'https://github.com/SmallJosePhD/External-debt-and-manufacturing'
 code: 'https://github.com/SmallJosePhD/External-debt-and-manufacturing/blob/main/Estimation%20DO%20file.do'
-citation: 'Abu, N., <b>David, J.<sup>†</sup></b>, & Sakanko, M.A. (2024). &quot;External debt and manufacturing sector’s performance in MINT countries: Evidence from dynamic heterogeneous panel estimation techniques&quot; <i>Journal of the Knowledge Economy</i>. <i>online first</i>, https://doi.org/10.1007/s13132-024-02430-w'
+citation: 'Abu, N., <b>David, J.<sup>†</sup></b>, & Sakanko, M.A. (2025). &quot;External debt and manufacturing sector’s performance in MINT countries: Evidence from dynamic heterogeneous panel estimation techniques&quot; <i>Journal of the Knowledge Economy</i>. <i>16</i>, 15164–15185. https://doi.org/10.1007/s13132-024-02430-w'
 ---
