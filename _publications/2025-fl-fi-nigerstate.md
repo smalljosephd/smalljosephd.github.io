@@ -1,5 +1,5 @@
 ---
-title: '<a href="/publication/2025-fl-fi-nigerstate.md" style="text-decoration:none;">The financial literacy and financial inclusion linkage: Evidence from Niger state of Nigeria</a>'
+title: '<a href="/publication/2025-fl-fi-nigerstate" style="text-decoration:none;">The financial literacy and financial inclusion linkage: Evidence from Niger state of Nigeria</a>'
 collection: publications
 permalink: /publication/2025-fl-fi-nigerstate.md
 date: 2025-09-08
