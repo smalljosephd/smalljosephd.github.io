@@ -27,7 +27,7 @@ My research has appeared in several economic journals, including the Journal of 
 [//]: # "My MRes research at the Universiti Pendidikan Sultan Idris, Malaysia, under the supervision of <a href="https://scholar.google.com/citations?user=Qjft0HoAAAAJ&hl=en" style="text-decoration:none" target="_blank">Dr. Awadh A.M. Gamal</a>, focuses on the role of corruption and the underground economy in the oil rent-growth relationship in oil-rich economies."
 
 <div>
-  <h2>Skills</h2>
+  <h2>Tools</h2>
   <div style="display: flex; justify-content: space-between;">
   <img src="/images/r_icon.png" alt="R programming" style="width: 50px; height: 50px;">
   <img src="/images/eviews_icon.png" alt="EViews" style="width: 55px; height: 55px;">
