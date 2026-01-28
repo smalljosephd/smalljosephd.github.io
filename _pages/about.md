@@ -35,5 +35,6 @@ My research has appeared in several economic journals, including the Journal of 
   <img src="/images/latex_icon.jpg" alt="LaTeX" style="width: 50px; height: 50px;">
   <img src="/images/overleaf_icon.png" alt="Overleaf" style="width: 50px; height: 50px;">
   <img src="/images/github_icon.png" alt="GitHub" style="width: 50px; height: 50px;">
+  <img src="/images/tableau_icon.png" alt="Tableau" style="width: 50px; height: 50px;">
   </div>
 </div>
