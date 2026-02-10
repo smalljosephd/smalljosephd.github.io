@@ -1,7 +1,7 @@
 let chartInstance = null;
 
 // Replace with your Google Sheets CSV URL
-const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKDHY91czNF0C9f3wTswf9uKTvipREeIuQZJT-zgELMRO6fS1bQUWTSdE30bo7TYlTaZaujWxCkjbh/pub?output=xlsx';
+const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKDHY91czNF0C9f3wTswf9uKTvipREeIuQZJT-zgELMRO6fS1bQUWTSdE30bo7TYlTaZaujWxCkjbh/pub?output=csv';
 
 fetch(sheetURL)
   .then(res => res.text())
