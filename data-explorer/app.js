@@ -7,7 +7,7 @@ fetch(sheetURL)
   .then(res => res.text())
   .then(csvText => {
     const rows = csvText.trim().split('\n');
-    const headers = rows.shift().split(',');
+    rows.shift(); // remove header
     const data = rows.map(r => {
       const cols = r.split(',');
       return {
@@ -16,8 +16,8 @@ fetch(sheetURL)
         country: cols[2].trim(),
         year: cols[3].trim(),
         value: Number(cols[4].trim()),
-        notes: cols[5] ? cols[5].trim() : '',   // Notes
-        source: cols[6] ? cols[6].trim() : ''  // Source
+        notes: cols[5] ? cols[5].trim() : '',
+        source: cols[6] ? cols[6].trim() : ''
       };
     });
 
@@ -30,6 +30,7 @@ fetch(sheetURL)
     const chartContainer = document.getElementById('chartContainer');
     const ctx = document.getElementById('chartCanvas').getContext('2d');
 
+    // Checkbox helper
     function createCheckbox(name, value, container){
       const label = document.createElement('label');
       label.style.marginRight = '10px';
@@ -46,6 +47,18 @@ fetch(sheetURL)
     indicators.forEach(i => createCheckbox(i,i,indicatorContainer));
     countries.forEach(c => createCheckbox(c,c,countryContainer));
     years.forEach(y => createCheckbox(y,y,yearContainer));
+
+    // Select All checkboxes
+    function setupSelectAll(selectAllId, container){
+      const selectAll = document.getElementById(selectAllId);
+      selectAll.addEventListener('change', e=>{
+        const checked = e.target.checked;
+        container.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.checked=checked);
+      });
+    }
+    setupSelectAll('indicatorSelectAll', indicatorContainer);
+    setupSelectAll('countrySelectAll', countryContainer);
+    setupSelectAll('yearSelectAll', yearContainer);
 
     // Search filters
     function filterSearch(inputId, container){
@@ -79,11 +92,10 @@ fetch(sheetURL)
         const row = document.createElement('tr');
         const noteItem = filtered.find(d=>d.name===name && d.category===category && d.country===country);
         row.innerHTML=`<td>${name}</td><td>${category}</td><td>${country}</td>`;
-        allYears.forEach((y,idx)=>{
+        allYears.forEach(y=>{
           const item = filtered.find(d=>d.name===name && d.category===category && d.country===country && d.year===y);
           const td = document.createElement('td');
           td.textContent = item?item.value:'-';
-          if(idx===0){ td.style.background="#e6f7ff"; td.style.fontWeight="bold"; }
           row.appendChild(td);
         });
         row.appendChild(document.createElement('td')).textContent = noteItem ? noteItem.notes : '';
