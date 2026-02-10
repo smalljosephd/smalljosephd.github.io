@@ -22,10 +22,11 @@ header p { color: #555; }
 
 /* Scrollable table */
 #dataTableContainer { overflow-x: auto; margin-top: 10px; max-width: 100%; }
-table { border-collapse: collapse; width: max-content; min-width: 100%; }
-th, td { border: 1px solid #ddd; padding: 8px; text-align: left; white-space: nowrap; }
+table { border-collapse: collapse; width: max-content; min-width: 100%; table-layout: fixed; }
+th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; word-break: break-word; }
 th { background: #f4f4f4; font-weight: bold; }
-#dataTable thead tr { position: sticky; top: 0; z-index: 2; }
+#dataTable thead tr { position: sticky; top: 0; z-index: 2; background:#f4f4f4; }
+
 #dataTable tbody { display: block; max-height: 400px; overflow-y: auto; }
 #dataTable tbody tr { display: table; width: 100%; table-layout: fixed; }
 #dataTable tbody tr:nth-child(even) { background-color: #f9f9f9; }
@@ -38,6 +39,7 @@ th { background: #f4f4f4; font-weight: bold; }
   background: #f4f4f4;
   z-index: 3;
   box-shadow: 2px 0 2px -1px rgba(0,0,0,0.2);
+  min-width: 200px; /* ensures it stays visible */
 }
 
 /* Chart container */
