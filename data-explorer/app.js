@@ -7,18 +7,16 @@ fetch(sheetURL)
   .then(res => res.text())
   .then(csvText => {
     const rows = csvText.trim().split('\n');
-    rows.shift(); // remove header
-    const data = rows.map(r => {
+    const headers = rows.shift().split(','); // headers include years
+    const yearColumns = headers.filter(h => /^\d{4}$/.test(h)); // columns that are years
+    const otherColumns = headers.filter(h => !/^\d{4}$/.test(h)); // name, category, country, notes, source
+
+    const data = rows.map(r=>{
       const cols = r.split(',');
-      return {
-        name: cols[0].trim(),
-        category: cols[1].trim(),
-        country: cols[2].trim(),
-        year: cols[3].trim(),
-        value: Number(cols[4].trim()),
-        notes: cols[5] ? cols[5].trim() : '',
-        source: cols[6] ? cols[6].trim() : ''
-      };
+      const obj = {};
+      otherColumns.forEach((h,i)=> obj[h.trim()] = cols[i]?.trim()||'');
+      yearColumns.forEach((y,i)=> obj[y] = Number(cols[otherColumns.length + i])||null);
+      return obj;
     });
 
     const indicatorContainer = document.getElementById('indicatorFilters');
@@ -30,7 +28,6 @@ fetch(sheetURL)
     const chartContainer = document.getElementById('chartContainer');
     const ctx = document.getElementById('chartCanvas').getContext('2d');
 
-    // Checkbox helper
     function createCheckbox(name, value, container){
       const label = document.createElement('label');
       label.style.marginRight = '10px';
@@ -39,10 +36,9 @@ fetch(sheetURL)
       container.appendChild(label);
     }
 
-    // Populate filters
-    const indicators = [...new Set(data.map(d=>d.name))].sort();
-    const countries = [...new Set(data.map(d=>d.country))].sort();
-    const years = [...new Set(data.map(d=>d.year))].sort();
+    const indicators = [...new Set(data.map(d=>d[otherColumns[0]]))].sort();
+    const countries = [...new Set(data.map(d=>d[otherColumns[2]]))].sort();
+    const years = yearColumns.sort((a,b)=>a-b); // ascending order
 
     indicators.forEach(i => createCheckbox(i,i,indicatorContainer));
     countries.forEach(c => createCheckbox(c,c,countryContainer));
@@ -60,7 +56,6 @@ fetch(sheetURL)
     setupSelectAll('countrySelectAll', countryContainer);
     setupSelectAll('yearSelectAll', yearContainer);
 
-    // Search filters
     function filterSearch(inputId, container){
       document.getElementById(inputId).addEventListener('input', e => {
         const search = e.target.value.toLowerCase();
@@ -80,64 +75,33 @@ fetch(sheetURL)
       tbody.innerHTML='';
       if(!filtered.length) return;
 
-      const allYears = [...new Set(filtered.map(d=>d.year))].sort().reverse();
-      theadRow.innerHTML='<th>Indicator</th><th>Category</th><th>Country</th>';
-      allYears.forEach(y => theadRow.appendChild(document.createElement('th')).textContent = y);
-      theadRow.appendChild(document.createElement('th')).textContent = "Notes";
-      theadRow.appendChild(document.createElement('th')).textContent = "Source";
+      // Table header
+      theadRow.innerHTML='';
+      theadRow.appendChild(document.createElement('th')).textContent = otherColumns[0]; // Indicator
+      theadRow.appendChild(document.createElement('th')).textContent = otherColumns[1]; // Category
+      theadRow.appendChild(document.createElement('th')).textContent = otherColumns[2]; // Country
+      years.forEach(y=>{
+        const th = document.createElement('th');
+        th.textContent = y;
+        theadRow.appendChild(th);
+      });
+      theadRow.appendChild(document.createElement('th')).textContent = 'Notes';
+      theadRow.appendChild(document.createElement('th')).textContent = 'Source';
 
-      const combos = [...new Set(filtered.map(d=>`${d.name}|${d.category}|${d.country}`))];
-      combos.forEach(ind=>{
-        const [name, category, country] = ind.split('|');
+      filtered.forEach(d=>{
         const row = document.createElement('tr');
-        const noteItem = filtered.find(d=>d.name===name && d.category===category && d.country===country);
-        row.innerHTML=`<td>${name}</td><td>${category}</td><td>${country}</td>`;
-        allYears.forEach(y=>{
-          const item = filtered.find(d=>d.name===name && d.category===category && d.country===country && d.year===y);
+        row.innerHTML=`<td>${d[otherColumns[0]]}</td><td>${d[otherColumns[1]]}</td><td>${d[otherColumns[2]]}</td>`;
+        years.forEach(y=>{
           const td = document.createElement('td');
-          td.textContent = item?item.value:'-';
+          td.textContent = d[y] !== null ? d[y] : '-';
           row.appendChild(td);
         });
-        row.appendChild(document.createElement('td')).textContent = noteItem ? noteItem.notes : '';
-        row.appendChild(document.createElement('td')).textContent = noteItem ? noteItem.source : '';
+        row.appendChild(document.createElement('td')).textContent = d['notes']||'';
+        row.appendChild(document.createElement('td')).textContent = d['source']||'';
         tbody.appendChild(row);
       });
-    }
 
-    function displayChart(filtered){
-      const indicators = [...new Set(filtered.map(d=>d.name))];
-      const countries = [...new Set(filtered.map(d=>d.country))];
-      const years = [...new Set(filtered.map(d=>d.year))].sort();
-
-      const datasets = [];
-      indicators.forEach(ind=>{
-        countries.forEach(c=>{
-          const dataPoints = years.map(y=>{
-            const item = filtered.find(d=>d.name===ind && d.country===c && d.year===y);
-            return item?item.value:null;
-          });
-          datasets.push({
-            label: `${ind} (${c})`,
-            data: dataPoints,
-            borderColor: `hsl(${Math.random()*360},70%,50%)`,
-            fill:false,
-            tension:0.3
-          });
-        });
-      });
-
-      if(chartInstance) chartInstance.destroy();
-      chartInstance = new Chart(ctx,{
-        type:'line',
-        data:{ labels:years, datasets },
-        options:{
-          responsive:true,
-          interaction:{ mode:'index', intersect:false },
-          plugins:{ legend:{ position:'bottom' } },
-          scales:{ y:{ beginAtZero:true } }
-        }
-      });
-      chartContainer.style.display='block';
+      tableContainer.style.display='block';
     }
 
     document.getElementById('showBtn').addEventListener('click',()=>{
@@ -145,27 +109,34 @@ fetch(sheetURL)
       const selectedCountries = getSelected(countryContainer);
       const selectedYears = getSelected(yearContainer);
 
-      const filtered = data.filter(d=>
-        (!selectedIndicators.length || selectedIndicators.includes(d.name)) &&
-        (!selectedCountries.length || selectedCountries.includes(d.country)) &&
-        (!selectedYears.length || selectedYears.includes(d.year))
+      let filtered = data.filter(d=>
+        (!selectedIndicators.length || selectedIndicators.includes(d[otherColumns[0]])) &&
+        (!selectedCountries.length || selectedCountries.includes(d[otherColumns[2]]))
       );
 
-      tableContainer.style.display = filtered.length?'block':'none';
+      if(selectedYears.length){
+        filtered = filtered.map(d=>{
+          const newObj = {...d};
+          yearColumns.forEach(y=>{ if(!selectedYears.includes(y)) newObj[y]=null; });
+          return newObj;
+        });
+      }
+
       displayTable(filtered);
-      if(filtered.length) displayChart(filtered);
-      else chartContainer.style.display='none';
+      chartContainer.style.display='none';
     });
 
     document.getElementById('downloadBtn').addEventListener('click',()=>{
-      const headers = Array.from(document.querySelectorAll('#dataTable th')).map(h=>h.textContent);
-      let csv="data:text/csv;charset=utf-8," + headers.join(",") + "\n";
+      let csv='data:text/csv;charset=utf-8,';
+      const allHeaders = [otherColumns[0],otherColumns[1],otherColumns[2],...years,'notes','source'];
+      csv += allHeaders.join(',') + '\n';
       document.querySelectorAll('#dataTable tbody tr').forEach(row=>{
-        csv+= Array.from(row.querySelectorAll('td')).map(td=>td.textContent).join(",") + "\n";
+        const rowText = Array.from(row.querySelectorAll('td')).map(td=>td.textContent).join(',');
+        csv+= rowText + '\n';
       });
-      const link=document.createElement('a');
-      link.href=encodeURI(csv);
-      link.download='data_repository.csv';
+      const link = document.createElement('a');
+      link.href = encodeURI(csv);
+      link.download = 'data_repository.csv';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
