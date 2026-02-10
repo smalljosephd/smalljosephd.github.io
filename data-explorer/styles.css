@@ -22,25 +22,17 @@ header p { color: #555; }
 .card { background: #fff; padding: 10px; border-radius: 8px; margin-top: 15px; box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
 
 /* Scrollable table */
-#dataTableContainer { overflow-x: auto; margin-top: 10px; max-width: 100%; }
-table { border-collapse: collapse; width: max-content; min-width: 100%; table-layout: fixed; font-size: 13px; }
-th, td { border: 1px solid #ddd; padding: 4px 6px; text-align: left; word-break: break-word; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#dataTableContainer { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; min-width: max-content; font-size: 13px; }
+th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; white-space: nowrap; }
 th { background: #f4f4f4; font-weight: bold; }
-#dataTable thead tr { position: sticky; top: 0; z-index: 2; background:#f4f4f4; }
 
-#dataTable tbody { display: block; max-height: 400px; overflow-y: auto; }
-#dataTable tbody tr { display: table; width: 100%; table-layout: fixed; }
-#dataTable tbody tr:nth-child(even) { background-color: #f9f9f9; }
-#dataTable tbody tr:hover { background-color: #e0f7fa; }
-
-/* Freeze first column (Indicator) */
-#dataTable th:first-child, #dataTable td:first-child {
+#dataTable th:first-child,
+#dataTable td:first-child {
   position: sticky;
   left: 0;
   background: #f4f4f4;
-  z-index: 3;
-  box-shadow: 2px 0 2px -1px rgba(0,0,0,0.2);
-  min-width: 150px;
+  z-index: 2;
 }
 
 /* Chart container */
