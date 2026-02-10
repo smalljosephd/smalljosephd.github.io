@@ -1,13 +1,11 @@
 let chartInstance = null;
 
-// <-- Replace this URL with your Google Sheets published CSV URL -->
-const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKDHY91czNF0C9f3wTswf9uKTvipREeIuQZJT-zgELMRO6fS1bQUWTSdE30bo7TYlTaZaujWxCkjbh/pub?gid=0&single=true&output=csv';
+// Replace with your Google Sheets CSV URL
+const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKDHY91czNF0C9f3wTswf9uKTvipREeIuQZJT-zgELMRO6fS1bQUWTSdE30bo7TYlTaZaujWxCkjbh/pub?output=csv';
 
 fetch(sheetURL)
   .then(res => res.text())
   .then(csvText => {
-
-    // Convert CSV to array of objects
     const rows = csvText.trim().split('\n');
     const headers = rows.shift().split(',');
     const data = rows.map(r => {
@@ -17,7 +15,9 @@ fetch(sheetURL)
         category: cols[1].trim(),
         country: cols[2].trim(),
         year: cols[3].trim(),
-        value: Number(cols[4].trim())
+        value: Number(cols[4].trim()),
+        notes: cols[5] ? cols[5].trim() : '',   // Notes
+        source: cols[6] ? cols[6].trim() : ''  // Source
       };
     });
 
@@ -30,7 +30,6 @@ fetch(sheetURL)
     const chartContainer = document.getElementById('chartContainer');
     const ctx = document.getElementById('chartCanvas').getContext('2d');
 
-    // Checkbox helper
     function createCheckbox(name, value, container){
       const label = document.createElement('label');
       label.style.marginRight = '10px';
@@ -71,11 +70,14 @@ fetch(sheetURL)
       const allYears = [...new Set(filtered.map(d=>d.year))].sort().reverse();
       theadRow.innerHTML='<th>Indicator</th><th>Category</th><th>Country</th>';
       allYears.forEach(y => theadRow.appendChild(document.createElement('th')).textContent = y);
+      theadRow.appendChild(document.createElement('th')).textContent = "Notes";
+      theadRow.appendChild(document.createElement('th')).textContent = "Source";
 
       const combos = [...new Set(filtered.map(d=>`${d.name}|${d.category}|${d.country}`))];
       combos.forEach(ind=>{
         const [name, category, country] = ind.split('|');
         const row = document.createElement('tr');
+        const noteItem = filtered.find(d=>d.name===name && d.category===category && d.country===country);
         row.innerHTML=`<td>${name}</td><td>${category}</td><td>${country}</td>`;
         allYears.forEach((y,idx)=>{
           const item = filtered.find(d=>d.name===name && d.category===category && d.country===country && d.year===y);
@@ -84,6 +86,8 @@ fetch(sheetURL)
           if(idx===0){ td.style.background="#e6f7ff"; td.style.fontWeight="bold"; }
           row.appendChild(td);
         });
+        row.appendChild(document.createElement('td')).textContent = noteItem ? noteItem.notes : '';
+        row.appendChild(document.createElement('td')).textContent = noteItem ? noteItem.source : '';
         tbody.appendChild(row);
       });
     }
@@ -141,7 +145,6 @@ fetch(sheetURL)
       else chartContainer.style.display='none';
     });
 
-    // CSV download
     document.getElementById('downloadBtn').addEventListener('click',()=>{
       const headers = Array.from(document.querySelectorAll('#dataTable th')).map(h=>h.textContent);
       let csv="data:text/csv;charset=utf-8," + headers.join(",") + "\n";
