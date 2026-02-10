@@ -7,15 +7,15 @@ fetch(sheetURL)
   .then(res => res.text())
   .then(csvText => {
     const rows = csvText.trim().split('\n');
-    const headers = rows.shift().split(','); // headers include years
-    const yearColumns = headers.filter(h => /^\d{4}$/.test(h)); // columns that are years
+    const headers = rows.shift().split(',');
+    const yearColumns = headers.filter(h => /^\d{4}$/.test(h));
     const otherColumns = headers.filter(h => !/^\d{4}$/.test(h)); // name, category, country, notes, source
 
     const data = rows.map(r=>{
       const cols = r.split(',');
       const obj = {};
       otherColumns.forEach((h,i)=> obj[h.trim()] = cols[i]?.trim()||'');
-      yearColumns.forEach((y,i)=> obj[y] = Number(cols[otherColumns.length + i])||null);
+      yearColumns.forEach((y,i)=> obj[y] = cols[otherColumns.length + i] !== undefined ? Number(cols[otherColumns.length + i]) : null);
       return obj;
     });
 
@@ -25,8 +25,6 @@ fetch(sheetURL)
     const tableContainer = document.getElementById('tableContainer');
     const tbody = document.querySelector('#dataTable tbody');
     const theadRow = document.getElementById('tableHeader');
-    const chartContainer = document.getElementById('chartContainer');
-    const ctx = document.getElementById('chartCanvas').getContext('2d');
 
     function createCheckbox(name, value, container){
       const label = document.createElement('label');
@@ -38,13 +36,12 @@ fetch(sheetURL)
 
     const indicators = [...new Set(data.map(d=>d[otherColumns[0]]))].sort();
     const countries = [...new Set(data.map(d=>d[otherColumns[2]]))].sort();
-    const years = yearColumns.sort((a,b)=>a-b); // ascending order
+    const years = yearColumns.sort((a,b)=>a-b); // ascending
 
     indicators.forEach(i => createCheckbox(i,i,indicatorContainer));
     countries.forEach(c => createCheckbox(c,c,countryContainer));
     years.forEach(y => createCheckbox(y,y,yearContainer));
 
-    // Select All checkboxes
     function setupSelectAll(selectAllId, container){
       const selectAll = document.getElementById(selectAllId);
       selectAll.addEventListener('change', e=>{
@@ -75,29 +72,27 @@ fetch(sheetURL)
       tbody.innerHTML='';
       if(!filtered.length) return;
 
-      // Table header
+      // Header: Indicator, Category, Country, Notes, Source, then years
       theadRow.innerHTML='';
-      theadRow.appendChild(document.createElement('th')).textContent = otherColumns[0]; // Indicator
-      theadRow.appendChild(document.createElement('th')).textContent = otherColumns[1]; // Category
-      theadRow.appendChild(document.createElement('th')).textContent = otherColumns[2]; // Country
+      ['Indicator','Category','Country','Notes','Source'].forEach(h=>{
+        const th = document.createElement('th');
+        th.textContent = h;
+        theadRow.appendChild(th);
+      });
       years.forEach(y=>{
         const th = document.createElement('th');
         th.textContent = y;
         theadRow.appendChild(th);
       });
-      theadRow.appendChild(document.createElement('th')).textContent = 'Notes';
-      theadRow.appendChild(document.createElement('th')).textContent = 'Source';
 
       filtered.forEach(d=>{
         const row = document.createElement('tr');
-        row.innerHTML=`<td>${d[otherColumns[0]]}</td><td>${d[otherColumns[1]]}</td><td>${d[otherColumns[2]]}</td>`;
+        row.innerHTML = `<td>${d[otherColumns[0]]}</td><td>${d[otherColumns[1]]}</td><td>${d[otherColumns[2]]}</td><td>${d['notes']||''}</td><td>${d['source']||''}</td>`;
         years.forEach(y=>{
           const td = document.createElement('td');
           td.textContent = d[y] !== null ? d[y] : '-';
           row.appendChild(td);
         });
-        row.appendChild(document.createElement('td')).textContent = d['notes']||'';
-        row.appendChild(document.createElement('td')).textContent = d['source']||'';
         tbody.appendChild(row);
       });
 
@@ -123,16 +118,15 @@ fetch(sheetURL)
       }
 
       displayTable(filtered);
-      chartContainer.style.display='none';
     });
 
     document.getElementById('downloadBtn').addEventListener('click',()=>{
       let csv='data:text/csv;charset=utf-8,';
-      const allHeaders = [otherColumns[0],otherColumns[1],otherColumns[2],...years,'notes','source'];
+      const allHeaders = ['Indicator','Category','Country','Notes','Source',...years];
       csv += allHeaders.join(',') + '\n';
       document.querySelectorAll('#dataTable tbody tr').forEach(row=>{
-        const rowText = Array.from(row.querySelectorAll('td')).map(td=>td.textContent).join(',');
-        csv+= rowText + '\n';
+        const rowText = Array.from(row.querySelectorAll('td')).map(td=>td.textContent || '...').join(',');
+        csv += rowText + '\n';
       });
       const link = document.createElement('a');
       link.href = encodeURI(csv);
