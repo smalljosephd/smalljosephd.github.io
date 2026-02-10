@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preston Consults Data Repository</title>
+  <title>Afreximbank-style Data Explorer</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -18,17 +18,20 @@
   <div class="filter-panel">
     <h3>Indicators / Datasets</h3>
     <input type="text" id="indicatorSearch" placeholder="Search indicators..." class="search-box">
+    <label><input type="checkbox" id="indicatorSelectAll"> Select All</label>
     <div id="indicatorFilters" class="checkbox-panel"></div>
   </div>
 
   <div class="filter-panel">
     <h3>Countries</h3>
     <input type="text" id="countrySearch" placeholder="Search countries..." class="search-box">
+    <label><input type="checkbox" id="countrySelectAll"> Select All</label>
     <div id="countryFilters" class="checkbox-panel"></div>
   </div>
 
   <div class="filter-panel">
     <h3>Years</h3>
+    <label><input type="checkbox" id="yearSelectAll"> Select All</label>
     <div id="yearFilters" class="checkbox-panel"></div>
   </div>
 
