@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quarterly Data Explorer - Preston Consults Data Repository</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header>
+    <h1>Preston Consults Montly Data Explorer</h1>
+    <p>Interactive explorer for indicators, countries, and years</p>
+  </header>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    
+    <!-- Left Sidebar: Filters -->
+    <aside class="sidebar">
+      <h2>Filters</h2>
+      
+      <!-- Indicator Filter -->
+      <div class="accordion-item">
+        <div class="accordion-header" data-target="indicatorAccordion">
+          <span>Indicators</span>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content" id="indicatorAccordion">
+          <input type="text" id="indicatorSearch" placeholder="Search indicators..." class="search-box">
+          <label class="select-all-label">
+            <input type="checkbox" id="indicatorSelectAll"> Select All
+          </label>
+          <div id="indicatorFilters" class="checkbox-panel"></div>
+        </div>
+      </div>
+
+      <!-- Country Filter -->
+      <div class="accordion-item">
+        <div class="accordion-header" data-target="countryAccordion">
+          <span>Countries</span>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content" id="countryAccordion">
+          <input type="text" id="countrySearch" placeholder="Search countries..." class="search-box">
+          <label class="select-all-label">
+            <input type="checkbox" id="countrySelectAll"> Select All
+          </label>
+          <div id="countryFilters" class="checkbox-panel"></div>
+        </div>
+      </div>
+
+      <!-- Year Filter -->
+      <div class="accordion-item">
+        <div class="accordion-header" data-target="yearAccordion">
+          <span>Years</span>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content" id="yearAccordion">
+          <label class="select-all-label">
+            <input type="checkbox" id="yearSelectAll"> Select All
+          </label>
+          <div id="yearFilters" class="checkbox-panel"></div>
+        </div>
+      </div>
+
+      <button id="showBtn" class="primary-btn">Show Results</button>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      
+      <!-- View Toggle Buttons -->
+      <div class="view-controls">
+        <button id="tableViewBtn" class="view-btn active">Table View</button>
+        <button id="chartViewBtn" class="view-btn">Chart View</button>
+      </div>
+
+      <!-- Placeholder Message -->
+      <div id="placeholderMessage" class="placeholder-message">
+        <h2>Welcome to the Data Explorer</h2>
+        <p>Please select filters and click "Show Results" to begin.</p>
+      </div>
+
+      <!-- Table View -->
+      <div id="tableView" class="view-container" style="display:none;">
+        <div class="table-controls">
+          <button id="exportBtn" class="secondary-btn">Export Data</button>
+          <div class="pagination-controls">
+            <label>
+              Rows per page:
+              <select id="rowsPerPage">
+                <option value="10">10</option>
+                <option value="25" selected>25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        
+        <div class="table-wrapper">
+          <table id="dataTable">
+            <thead>
+              <tr id="tableHeader"></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="pagination-footer">
+          <div class="pagination-info" id="paginationInfo"></div>
+          <div class="pagination-buttons">
+            <button id="prevBtn" class="pagination-btn">← Previous</button>
+            <button id="nextBtn" class="pagination-btn">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart View -->
+      <div id="chartView" class="view-container" style="display:none;">
+        <div id="chartPlaceholder" class="placeholder-message">
+          <h3>Chart Analysis</h3>
+          <p>Select filters and click "Show Results" to visualize data.</p>
+        </div>
+        
+        <div id="chartContent" style="display:none;">
+          <div class="chart-controls">
+            <div class="chart-select">
+              <label>
+                Indicator:
+                <select id="chartIndicatorSelect" class="chart-dropdown"></select>
+              </label>
+            </div>
+            <div class="chart-select">
+              <label>
+                Country:
+                <select id="chartCountrySelect" class="chart-dropdown"></select>
+              </label>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p><strong>Developed by:</strong> Preston Consults Ltd Research and Data Analysis Team</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

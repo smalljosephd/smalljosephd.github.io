@@ -8,10 +8,10 @@ let currentTimeframe = 'annual';
 let allColumns = [];
 let yearColumns = [];
 let otherColumns = [];
-let currentColumnsToShow = [];
+let currentColumnsToShow = []; // Store columns for pagination
 
 // Detect data source from page (set by HTML)
-const dataSource = window.dataSource || 'all';
+const dataSource = window.dataSource || 'all'; // 'all' or 'trade'
 
 // Timeframe configurations with data folder paths
 const timeframeConfig = {
@@ -40,8 +40,8 @@ const timeframeConfig = {
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('App initializing with data source:', dataSource);
   initializeTimeframeSelector();
+  initializeMobileMenu();
   initializeAccordion();
   initializeViewToggle();
   initializePagination();
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadTimeframe('annual');
 });
 
-// Initialize Timeframe Selector (in sidebar)
+// Initialize Timeframe Selector
 function initializeTimeframeSelector() {
   const buttons = document.querySelectorAll('.timeframe-btn');
   
@@ -67,29 +67,53 @@ function initializeTimeframeSelector() {
   });
 }
 
+// Initialize Mobile Menu
+function initializeMobileMenu() {
+  const hamburger = document.getElementById('hamburgerMenu');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const closeSidebar = document.getElementById('closeSidebar');
+  
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+  }
+  
+  if (closeSidebar) {
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      if (hamburger) hamburger.classList.remove('active');
+    });
+  }
+  
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      if (hamburger) hamburger.classList.remove('active');
+    });
+  }
+}
+
 // Load Timeframe Data
 function loadTimeframe(timeframe) {
   currentTimeframe = timeframe;
   const config = timeframeConfig[timeframe];
   
-  console.log(`Loading ${timeframe} data from:`, config.file);
-  
   fetch(config.file)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      return res.text();
-    })
+    .then(res => res.text())
     .then(csvText => {
-      console.log('Data loaded successfully');
       parseCSVData(csvText);
       initializeFilters();
       resetUI();
     })
     .catch(err => {
       console.error(`Error loading ${timeframe} data:`, err);
-      alert(`Failed to load ${timeframe} data. Please check:\n1. The data folder exists\n2. The file ${config.file} is uploaded\n3. Check browser console for details`);
+      alert(`Failed to load ${timeframe} data. Please check if the file exists.`);
     });
 }
 
@@ -98,23 +122,25 @@ function parseCSVData(csvText) {
   const rows = csvText.trim().split('\n');
   const headers = rows.shift().split(',').map(h => h.trim());
   
+  // Get timeframe configuration
   const config = timeframeConfig[currentTimeframe];
   
+  // Separate columns
   yearColumns = headers.filter(h => config.regex.test(h));
   otherColumns = headers.filter(h => !config.regex.test(h));
   allColumns = headers;
   
-  console.log('Year columns detected:', yearColumns.length);
-  console.log('Other columns:', otherColumns);
-  
+  // Parse data rows
   allData = rows.map(r => {
     const cols = r.split(',');
     const obj = {};
     
+    // Map non-year columns
     otherColumns.forEach((h, i) => {
       obj[h.trim()] = cols[i]?.trim() || '';
     });
     
+    // Map year columns
     yearColumns.forEach((y, i) => {
       const value = cols[otherColumns.length + i];
       obj[y] = value && value.trim() !== '' ? Number(value) : null;
@@ -122,8 +148,6 @@ function parseCSVData(csvText) {
     
     return obj;
   });
-  
-  console.log('Data parsed:', allData.length, 'rows');
 }
 
 // Initialize Filters
@@ -131,11 +155,6 @@ function initializeFilters() {
   const indicatorContainer = document.getElementById('indicatorFilters');
   const countryContainer = document.getElementById('countryFilters');
   const yearContainer = document.getElementById('yearFilters');
-  
-  if (!indicatorContainer || !countryContainer || !yearContainer) {
-    console.error('Filter containers not found!');
-    return;
-  }
   
   // Clear existing filters
   indicatorContainer.innerHTML = '';
@@ -145,9 +164,9 @@ function initializeFilters() {
   // Get unique values
   const indicators = [...new Set(allData.map(d => d[otherColumns[0]]))].sort();
   const countries = [...new Set(allData.map(d => d[otherColumns[2]]))].sort();
-  const years = getUniqueYears();
   
-  console.log('Filters - Indicators:', indicators.length, 'Countries:', countries.length, 'Years:', years.length);
+  // Extract unique years from year columns
+  const years = getUniqueYears();
   
   // Create checkboxes
   indicators.forEach(i => createCheckbox(i, i, indicatorContainer));
@@ -165,20 +184,17 @@ function initializeFilters() {
   
   // Setup Show Results button
   const showBtn = document.getElementById('showBtn');
-  if (showBtn) {
-    showBtn.removeEventListener('click', showResults);
-    showBtn.addEventListener('click', showResults);
-    console.log('Show Results button connected');
-  } else {
-    console.error('Show Results button not found!');
-  }
+  showBtn.removeEventListener('click', showResults); // Remove old listener
+  showBtn.addEventListener('click', showResults);
 }
 
 // Get Unique Years
 function getUniqueYears() {
+  const config = timeframeConfig[currentTimeframe];
   const yearSet = new Set();
   
   yearColumns.forEach(col => {
+    // Extract year from column name
     const year = col.match(/^\d{4}/)?.[0];
     if (year) yearSet.add(year);
   });
@@ -196,8 +212,8 @@ function createCheckbox(name, value, container) {
 // Setup Select All functionality
 function setupSelectAll(checkboxId, container) {
   const selectAll = document.getElementById(checkboxId);
-  if (!selectAll) return;
   
+  // Remove old listener
   const newSelectAll = selectAll.cloneNode(true);
   selectAll.parentNode.replaceChild(newSelectAll, selectAll);
   
@@ -212,8 +228,8 @@ function setupSelectAll(checkboxId, container) {
 // Setup Search functionality
 function setupSearch(inputId, container) {
   const searchInput = document.getElementById(inputId);
-  if (!searchInput) return;
   
+  // Remove old listener
   const newSearchInput = searchInput.cloneNode(true);
   searchInput.parentNode.replaceChild(newSearchInput, searchInput);
   
@@ -294,11 +310,6 @@ function initializeViewToggle() {
   const chartView = document.getElementById('chartView');
   const placeholder = document.getElementById('placeholderMessage');
   
-  if (!tableViewBtn || !chartViewBtn) {
-    console.error('View toggle buttons not found!');
-    return;
-  }
-  
   tableViewBtn.addEventListener('click', () => {
     tableViewBtn.classList.add('active');
     chartViewBtn.classList.remove('active');
@@ -307,7 +318,7 @@ function initializeViewToggle() {
       tableView.style.display = 'block';
       chartView.style.display = 'none';
       placeholder.style.display = 'none';
-      displayTable(filteredData, currentColumnsToShow);
+      displayTable(filteredData, currentColumnsToShow); // Re-display current page
     } else {
       tableView.style.display = 'none';
       chartView.style.display = 'none';
@@ -323,7 +334,7 @@ function initializeViewToggle() {
       chartView.style.display = 'block';
       tableView.style.display = 'none';
       placeholder.style.display = 'none';
-      displayChart(filteredData, currentColumnsToShow);
+      displayChart(filteredData, currentColumnsToShow); // Re-display with current columns
     } else {
       chartView.style.display = 'none';
       tableView.style.display = 'none';
@@ -346,10 +357,11 @@ function resetUI() {
   document.getElementById('chartViewBtn').classList.remove('active');
 }
 
+// Store current columns to show (needed for pagination)
+let currentColumnsToShow = [];
+
 // Show results based on filters
 function showResults() {
-  console.log('Show Results clicked');
-  
   const indicatorContainer = document.getElementById('indicatorFilters');
   const countryContainer = document.getElementById('countryFilters');
   const yearContainer = document.getElementById('yearFilters');
@@ -358,24 +370,14 @@ function showResults() {
   const selectedCountries = getSelected(countryContainer);
   const selectedYears = getSelected(yearContainer);
   
-  console.log('Selected:', {
-    indicators: selectedIndicators.length,
-    countries: selectedCountries.length,
-    years: selectedYears.length
-  });
-  
   // Filter data
   filteredData = allData.filter(d =>
     (!selectedIndicators.length || selectedIndicators.includes(d[otherColumns[0]])) &&
     (!selectedCountries.length || selectedCountries.includes(d[otherColumns[2]]))
   );
   
-  console.log('Filtered data:', filteredData.length, 'rows');
-  
   // Get columns to show based on selected years
   currentColumnsToShow = expandYearsToColumns(selectedYears);
-  
-  console.log('Columns to show:', currentColumnsToShow.length);
   
   // Reset pagination
   currentPage = 1;
@@ -386,6 +388,7 @@ function showResults() {
 
 // Display results (separated from filtering for pagination)
 function displayResults() {
+  // Update UI
   if (filteredData.length > 0) {
     document.getElementById('placeholderMessage').style.display = 'none';
     
@@ -426,7 +429,10 @@ function displayTable(data, columnsToShow) {
   });
   
   // Add year columns
-  columnsToShow.sort((a, b) => a.localeCompare(b)).forEach(year => {
+  columnsToShow.sort((a, b) => {
+    // Sort chronologically
+    return a.localeCompare(b);
+  }).forEach(year => {
     const th = document.createElement('th');
     th.textContent = year;
     tableHeader.appendChild(th);
@@ -469,21 +475,16 @@ function initializePagination() {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   
-  if (!rowsPerPageSelect || !prevBtn || !nextBtn) {
-    console.error('Pagination elements not found!');
-    return;
-  }
-  
   rowsPerPageSelect.addEventListener('change', e => {
     rowsPerPage = parseInt(e.target.value);
     currentPage = 1;
-    displayResults();
+    displayResults(); // Just re-display, don't re-filter
   });
   
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
       currentPage--;
-      displayResults();
+      displayResults(); // Just re-display, don't re-filter
     }
   });
   
@@ -491,11 +492,9 @@ function initializePagination() {
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     if (currentPage < totalPages) {
       currentPage++;
-      displayResults();
+      displayResults(); // Just re-display, don't re-filter
     }
   });
-  
-  console.log('Pagination initialized');
 }
 
 // Update pagination info
@@ -663,18 +662,8 @@ function updateChart(data, columnsToShow) {
 
 // Initialize export functionality
 function initializeExport() {
-  const exportBtn = document.getElementById('exportBtn');
-  
-  if (!exportBtn) {
-    console.error('Export button not found!');
-    return;
-  }
-  
-  exportBtn.addEventListener('click', () => {
-    if (filteredData.length === 0) {
-      alert('No data to export. Please select filters and click "Show Results" first.');
-      return;
-    }
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    if (filteredData.length === 0) return;
     
     // Get current table headers
     const tableHeader = document.getElementById('tableHeader');
@@ -713,6 +702,4 @@ function initializeExport() {
     link.click();
     document.body.removeChild(link);
   });
-  
-  console.log('Export button initialized');
 }

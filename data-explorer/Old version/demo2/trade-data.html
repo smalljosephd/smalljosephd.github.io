@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trade Data Explorer - Preston Consults</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/x-icon" href="image/favicon.ico">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="main-header" id="mainHeader">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="logo-link">
+          <div class="logo">
+            <span class="logo-icon"><img src="image/favicon.jpeg" alt="logo" width="35" height="35"></span>
+            <span class="logo-text-full">Preston Consults Data Repository</span>
+            <span class="logo-text-short">Data Repository</span>
+          </div>
+        </a>
+      </div>
+      
+      <nav class="header-nav" id="headerNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="all-data.html" class="nav-link">All Data Explorer</a>
+        <a href="trade-data.html" class="nav-link active">Trade Data Explorer</a>
+        <a href="about.html" class="nav-link">About Team</a>
+        <a href="faq.html" class="nav-link">FAQ</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </nav>
+      
+      <div class="header-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <span class="theme-icon sun"><img src="image/sun-white.png" width="25" height="25"></span>
+          <!-- <span class="theme-icon sun">☀</span> -->
+          <span class="theme-icon moon"><img src="image/moon-white.png" width="30" height="30"></span>
+        </button>
+        <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Page Title -->
+  <div class="page-title-section">
+    <div class="container">
+      <h1>Trade Data Explorer</h1>
+      <p>Specialized foreign trade and investment indicators including exports, imports, trade balance, capital importation</p>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    
+    <!-- Left Sidebar: Filters -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>Filters</h2>
+        <button class="close-sidebar" id="closeSidebar" aria-label="Close filters">×</button>
+      </div>
+      
+      <!-- Timeframe Selector in Sidebar -->
+      <div class="timeframe-selector-sidebar">
+        <label>Timeframe:</label>
+        <div class="timeframe-buttons">
+          <button class="timeframe-btn active" data-timeframe="annual">Annual</button>
+          <button class="timeframe-btn" data-timeframe="quarterly">Quarterly</button>
+          <button class="timeframe-btn" data-timeframe="monthly">Monthly</button>
+        </div>
+      </div>
+      
+      <!-- Indicator Filter -->
+      <div class="accordion-item">
+        <div class="accordion-header" data-target="indicatorAccordion">
+          <span>Trade Indicators</span>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content" id="indicatorAccordion">
+          <input type="text" id="indicatorSearch" placeholder="Search indicators..." class="search-box">
+          <label class="select-all-label">
+            <input type="checkbox" id="indicatorSelectAll"> Select All
+          </label>
+          <div id="indicatorFilters" class="checkbox-panel"></div>
+        </div>
+      </div>
+
+      <!-- Country Filter -->
+      <div class="accordion-item">
+        <div class="accordion-header" data-target="countryAccordion">
+          <span>Countries</span>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content" id="countryAccordion">
+          <input type="text" id="countrySearch" placeholder="Search countries..." class="search-box">
+          <label class="select-all-label">
+            <input type="checkbox" id="countrySelectAll"> Select All
+          </label>
+          <div id="countryFilters" class="checkbox-panel"></div>
+        </div>
+      </div>
+
+      <!-- Year Filter -->
+      <div class="accordion-item">
+        <div class="accordion-header" data-target="yearAccordion">
+          <span>Years</span>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content" id="yearAccordion">
+          <label class="select-all-label">
+            <input type="checkbox" id="yearSelectAll"> Select All
+          </label>
+          <div id="yearFilters" class="checkbox-panel"></div>
+        </div>
+      </div>
+
+      <button id="showBtn" class="primary-btn">Show Results</button>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      
+      <!-- View Toggle & Filter Button -->
+      <div class="view-controls">
+        <button class="filter-toggle-btn" id="filterToggleBtn">
+          <span>☰</span> Filters
+        </button>
+        <div class="view-buttons">
+          <button id="tableViewBtn" class="view-btn active">Table View</button>
+          <button id="chartViewBtn" class="view-btn">Chart View</button>
+        </div>
+      </div>
+
+      <!-- Placeholder Message -->
+      <div id="placeholderMessage" class="placeholder-message">
+        <h2>Welcome to Trade Data Explorer</h2>
+        <p>Select your timeframe, apply filters, and click "Show Results" to begin.</p>
+      </div>
+
+      <!-- Table View -->
+      <div id="tableView" class="view-container" style="display:none;">
+        <div class="table-controls">
+          <button id="exportBtn" class="secondary-btn">Export Data</button>
+          <div class="pagination-controls">
+            <label>
+              Rows per page:
+              <select id="rowsPerPage">
+                <option value="10">10</option>
+                <option value="25" selected>25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        
+        <div class="table-wrapper">
+          <table id="dataTable">
+            <thead>
+              <tr id="tableHeader"></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="pagination-footer">
+          <div class="pagination-info" id="paginationInfo"></div>
+          <div class="pagination-buttons">
+            <button id="prevBtn" class="pagination-btn">← Previous</button>
+            <button id="nextBtn" class="pagination-btn">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart View -->
+      <div id="chartView" class="view-container" style="display:none;">
+        <div id="chartPlaceholder" class="placeholder-message">
+          <h3>Chart Analysis</h3>
+          <p>Select filters and click "Show Results" to visualize data.</p>
+        </div>
+        
+        <div id="chartContent" style="display:none;">
+          <div class="chart-controls">
+            <div class="chart-select">
+              <label>
+                Indicator:
+                <select id="chartIndicatorSelect" class="chart-dropdown"></select>
+              </label>
+            </div>
+            <div class="chart-select">
+              <label>
+                Country:
+                <select id="chartCountrySelect" class="chart-dropdown"></select>
+              </label>
+            </div>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>About Repository</h4>
+          <p>The Preston Consults' internal data repository provides access to comprehensive trade, investment, financial, and economic data for strategic analysis and decision-making across and beyond Africa.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="all-data.html">All Data Explorer</a></li>
+            <li><a href="trade-data.html">Trade Data Explorer</a></li>
+            <li><a href="about.html">About Team</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p><a href="mailto:info@prestonconsultsltd.com" style="color: white;">info@prestonconsultsltd.com</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p><strong>Developed by:</strong> Preston Consults Ltd Research and Data Analysis Team</p>
+        <p class="copyright">© 2026 Preston Consults Ltd. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="navigation.js"></script>
+  <script>
+    // Set data source for this page
+    window.dataSource = 'trade';
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

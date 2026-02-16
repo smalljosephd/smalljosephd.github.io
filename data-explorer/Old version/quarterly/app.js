@@ -1,153 +1,62 @@
-// Global Variables
 let chartInstance = null;
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
 let rowsPerPage = 25;
-let currentTimeframe = 'annual';
-let allColumns = [];
-let yearColumns = [];
-let otherColumns = [];
-let currentColumnsToShow = [];
 
-// Detect data source from page (set by HTML)
-const dataSource = window.dataSource || 'all';
+// CSV URL
+const sheetURL = 'data.csv';
 
-// Timeframe configurations with data folder paths
-const timeframeConfig = {
-  annual: {
-    file: `data/${dataSource}-annual-data.csv`,
-    regex: /^\d{4}$/,
-    expandYear: (year) => [year]
-  },
-  quarterly: {
-    file: `data/${dataSource}-quarterly-data.csv`,
-    regex: /^\d{4}Q[1-4]$/,
-    expandYear: (year) => [`${year}Q1`, `${year}Q2`, `${year}Q3`, `${year}Q4`]
-  },
-  monthly: {
-    file: `data/${dataSource}-monthly-data.csv`,
-    regex: /^\d{4}-\d{2}$/,
-    expandYear: (year) => {
-      const months = [];
-      for (let i = 1; i <= 12; i++) {
-        months.push(`${year}-${String(i).padStart(2, '0')}`);
-      }
-      return months;
-    }
-  }
-};
-
-// Initialize App
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('App initializing with data source:', dataSource);
-  initializeTimeframeSelector();
-  initializeAccordion();
-  initializeViewToggle();
-  initializePagination();
-  initializeExport();
-  loadTimeframe('annual');
-});
-
-// Initialize Timeframe Selector (in sidebar)
-function initializeTimeframeSelector() {
-  const buttons = document.querySelectorAll('.timeframe-btn');
-  
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const timeframe = btn.getAttribute('data-timeframe');
+// Fetch and parse CSV
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(csvText => {
+    const rows = csvText.trim().split('\n');
+    const headers = rows.shift().split(',').map(h => h.trim());
+    
+    // Separate year columns from other columns
+    const yearColumns = headers.filter(h => /^\d{4}$/.test(h));
+    const otherColumns = headers.filter(h => !/^\d{4}$/.test(h));
+    
+    // Parse data rows
+    allData = rows.map(r => {
+      const cols = r.split(',');
+      const obj = {};
       
-      // Update active state
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      // Map non-year columns
+      otherColumns.forEach((h, i) => {
+        obj[h.trim()] = cols[i]?.trim() || '';
+      });
       
-      // Load new timeframe
-      loadTimeframe(timeframe);
-    });
-  });
-}
-
-// Load Timeframe Data
-function loadTimeframe(timeframe) {
-  currentTimeframe = timeframe;
-  const config = timeframeConfig[timeframe];
-  
-  console.log(`Loading ${timeframe} data from:`, config.file);
-  
-  fetch(config.file)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      return res.text();
-    })
-    .then(csvText => {
-      console.log('Data loaded successfully');
-      parseCSVData(csvText);
-      initializeFilters();
-      resetUI();
-    })
-    .catch(err => {
-      console.error(`Error loading ${timeframe} data:`, err);
-      alert(`Failed to load ${timeframe} data. Please check:\n1. The data folder exists\n2. The file ${config.file} is uploaded\n3. Check browser console for details`);
-    });
-}
-
-// Parse CSV Data
-function parseCSVData(csvText) {
-  const rows = csvText.trim().split('\n');
-  const headers = rows.shift().split(',').map(h => h.trim());
-  
-  const config = timeframeConfig[currentTimeframe];
-  
-  yearColumns = headers.filter(h => config.regex.test(h));
-  otherColumns = headers.filter(h => !config.regex.test(h));
-  allColumns = headers;
-  
-  console.log('Year columns detected:', yearColumns.length);
-  console.log('Other columns:', otherColumns);
-  
-  allData = rows.map(r => {
-    const cols = r.split(',');
-    const obj = {};
-    
-    otherColumns.forEach((h, i) => {
-      obj[h.trim()] = cols[i]?.trim() || '';
+      // Map year columns
+      yearColumns.forEach((y, i) => {
+        const value = cols[otherColumns.length + i];
+        obj[y] = value && value.trim() !== '' ? Number(value) : null;
+      });
+      
+      return obj;
     });
     
-    yearColumns.forEach((y, i) => {
-      const value = cols[otherColumns.length + i];
-      obj[y] = value && value.trim() !== '' ? Number(value) : null;
-    });
-    
-    return obj;
-  });
-  
-  console.log('Data parsed:', allData.length, 'rows');
-}
+    // Initialize UI
+    initializeFilters(otherColumns, yearColumns);
+    initializeAccordion();
+    initializeViewToggle();
+    initializePagination();
+    initializeExport();
+    setupClickOutsideAccordion();
+  })
+  .catch(err => console.error('Error loading data:', err));
 
-// Initialize Filters
-function initializeFilters() {
+// Initialize filter checkboxes
+function initializeFilters(otherColumns, yearColumns) {
   const indicatorContainer = document.getElementById('indicatorFilters');
   const countryContainer = document.getElementById('countryFilters');
   const yearContainer = document.getElementById('yearFilters');
   
-  if (!indicatorContainer || !countryContainer || !yearContainer) {
-    console.error('Filter containers not found!');
-    return;
-  }
-  
-  // Clear existing filters
-  indicatorContainer.innerHTML = '';
-  countryContainer.innerHTML = '';
-  yearContainer.innerHTML = '';
-  
   // Get unique values
   const indicators = [...new Set(allData.map(d => d[otherColumns[0]]))].sort();
   const countries = [...new Set(allData.map(d => d[otherColumns[2]]))].sort();
-  const years = getUniqueYears();
-  
-  console.log('Filters - Indicators:', indicators.length, 'Countries:', countries.length, 'Years:', years.length);
+  const years = yearColumns.sort((a, b) => a - b);
   
   // Create checkboxes
   indicators.forEach(i => createCheckbox(i, i, indicatorContainer));
@@ -164,26 +73,7 @@ function initializeFilters() {
   setupSearch('countrySearch', countryContainer);
   
   // Setup Show Results button
-  const showBtn = document.getElementById('showBtn');
-  if (showBtn) {
-    showBtn.removeEventListener('click', showResults);
-    showBtn.addEventListener('click', showResults);
-    console.log('Show Results button connected');
-  } else {
-    console.error('Show Results button not found!');
-  }
-}
-
-// Get Unique Years
-function getUniqueYears() {
-  const yearSet = new Set();
-  
-  yearColumns.forEach(col => {
-    const year = col.match(/^\d{4}/)?.[0];
-    if (year) yearSet.add(year);
-  });
-  
-  return Array.from(yearSet).sort();
+  document.getElementById('showBtn').addEventListener('click', showResults);
 }
 
 // Create checkbox element
@@ -196,12 +86,7 @@ function createCheckbox(name, value, container) {
 // Setup Select All functionality
 function setupSelectAll(checkboxId, container) {
   const selectAll = document.getElementById(checkboxId);
-  if (!selectAll) return;
-  
-  const newSelectAll = selectAll.cloneNode(true);
-  selectAll.parentNode.replaceChild(newSelectAll, selectAll);
-  
-  newSelectAll.addEventListener('change', e => {
+  selectAll.addEventListener('change', e => {
     const checked = e.target.checked;
     container.querySelectorAll('input[type=checkbox]').forEach(cb => {
       cb.checked = checked;
@@ -211,13 +96,7 @@ function setupSelectAll(checkboxId, container) {
 
 // Setup Search functionality
 function setupSearch(inputId, container) {
-  const searchInput = document.getElementById(inputId);
-  if (!searchInput) return;
-  
-  const newSearchInput = searchInput.cloneNode(true);
-  searchInput.parentNode.replaceChild(newSearchInput, searchInput);
-  
-  newSearchInput.addEventListener('input', e => {
+  document.getElementById(inputId).addEventListener('input', e => {
     const search = e.target.value.toLowerCase();
     Array.from(container.children).forEach(label => {
       const text = label.textContent.toLowerCase();
@@ -230,25 +109,6 @@ function setupSearch(inputId, container) {
 function getSelected(container) {
   return Array.from(container.querySelectorAll('input[type=checkbox]:checked'))
     .map(cb => cb.value);
-}
-
-// Expand selected years to actual columns
-function expandYearsToColumns(selectedYears) {
-  if (selectedYears.length === 0) return yearColumns;
-  
-  const config = timeframeConfig[currentTimeframe];
-  const expandedColumns = [];
-  
-  selectedYears.forEach(year => {
-    const columns = config.expandYear(year);
-    columns.forEach(col => {
-      if (yearColumns.includes(col)) {
-        expandedColumns.push(col);
-      }
-    });
-  });
-  
-  return expandedColumns;
 }
 
 // Initialize accordion functionality
@@ -279,11 +139,24 @@ function initializeAccordion() {
   
   // Open first accordion by default
   const firstHeader = document.querySelector('.accordion-header');
-  if (firstHeader) {
-    const firstContent = document.getElementById(firstHeader.getAttribute('data-target'));
-    firstHeader.classList.add('active');
-    firstContent.classList.add('active');
-  }
+  const firstContent = document.getElementById(firstHeader.getAttribute('data-target'));
+  firstHeader.classList.add('active');
+  firstContent.classList.add('active');
+}
+
+// Setup click outside to close accordion
+function setupClickOutsideAccordion() {
+  document.addEventListener('click', (e) => {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar.contains(e.target)) {
+      document.querySelectorAll('.accordion-header').forEach(h => {
+        h.classList.remove('active');
+      });
+      document.querySelectorAll('.accordion-content').forEach(c => {
+        c.classList.remove('active');
+      });
+    }
+  });
 }
 
 // Initialize view toggle
@@ -294,11 +167,6 @@ function initializeViewToggle() {
   const chartView = document.getElementById('chartView');
   const placeholder = document.getElementById('placeholderMessage');
   
-  if (!tableViewBtn || !chartViewBtn) {
-    console.error('View toggle buttons not found!');
-    return;
-  }
-  
   tableViewBtn.addEventListener('click', () => {
     tableViewBtn.classList.add('active');
     chartViewBtn.classList.remove('active');
@@ -307,7 +175,6 @@ function initializeViewToggle() {
       tableView.style.display = 'block';
       chartView.style.display = 'none';
       placeholder.style.display = 'none';
-      displayTable(filteredData, currentColumnsToShow);
     } else {
       tableView.style.display = 'none';
       chartView.style.display = 'none';
@@ -323,7 +190,6 @@ function initializeViewToggle() {
       chartView.style.display = 'block';
       tableView.style.display = 'none';
       placeholder.style.display = 'none';
-      displayChart(filteredData, currentColumnsToShow);
     } else {
       chartView.style.display = 'none';
       tableView.style.display = 'none';
@@ -332,24 +198,8 @@ function initializeViewToggle() {
   });
 }
 
-// Reset UI
-function resetUI() {
-  filteredData = [];
-  currentPage = 1;
-  
-  document.getElementById('placeholderMessage').style.display = 'block';
-  document.getElementById('tableView').style.display = 'none';
-  document.getElementById('chartView').style.display = 'none';
-  
-  // Reset to table view
-  document.getElementById('tableViewBtn').classList.add('active');
-  document.getElementById('chartViewBtn').classList.remove('active');
-}
-
 // Show results based on filters
 function showResults() {
-  console.log('Show Results clicked');
-  
   const indicatorContainer = document.getElementById('indicatorFilters');
   const countryContainer = document.getElementById('countryFilters');
   const yearContainer = document.getElementById('yearFilters');
@@ -358,11 +208,11 @@ function showResults() {
   const selectedCountries = getSelected(countryContainer);
   const selectedYears = getSelected(yearContainer);
   
-  console.log('Selected:', {
-    indicators: selectedIndicators.length,
-    countries: selectedCountries.length,
-    years: selectedYears.length
-  });
+  // Get column names
+  const firstRow = allData[0];
+  const allColumns = Object.keys(firstRow);
+  const yearColumns = allColumns.filter(col => /^\d{4}$/.test(col));
+  const otherColumns = allColumns.filter(col => !/^\d{4}$/.test(col));
   
   // Filter data
   filteredData = allData.filter(d =>
@@ -370,22 +220,13 @@ function showResults() {
     (!selectedCountries.length || selectedCountries.includes(d[otherColumns[2]]))
   );
   
-  console.log('Filtered data:', filteredData.length, 'rows');
-  
-  // Get columns to show based on selected years
-  currentColumnsToShow = expandYearsToColumns(selectedYears);
-  
-  console.log('Columns to show:', currentColumnsToShow.length);
+  // Store selected years for display
+  const yearsToShow = selectedYears.length > 0 ? selectedYears : yearColumns;
   
   // Reset pagination
   currentPage = 1;
   
-  // Display results
-  displayResults();
-}
-
-// Display results (separated from filtering for pagination)
-function displayResults() {
+  // Update UI
   if (filteredData.length > 0) {
     document.getElementById('placeholderMessage').style.display = 'none';
     
@@ -395,11 +236,11 @@ function displayResults() {
     if (isTableView) {
       document.getElementById('tableView').style.display = 'block';
       document.getElementById('chartView').style.display = 'none';
-      displayTable(filteredData, currentColumnsToShow);
+      displayTable(filteredData, otherColumns, yearsToShow);
     } else {
       document.getElementById('chartView').style.display = 'block';
       document.getElementById('tableView').style.display = 'none';
-      displayChart(filteredData, currentColumnsToShow);
+      displayChart(filteredData, otherColumns, yearsToShow);
     }
   } else {
     document.getElementById('placeholderMessage').style.display = 'block';
@@ -409,7 +250,7 @@ function displayResults() {
 }
 
 // Display table with pagination
-function displayTable(data, columnsToShow) {
+function displayTable(data, otherColumns, yearsToShow) {
   const tableHeader = document.getElementById('tableHeader');
   const tableBody = document.getElementById('tableBody');
   
@@ -426,7 +267,7 @@ function displayTable(data, columnsToShow) {
   });
   
   // Add year columns
-  columnsToShow.sort((a, b) => a.localeCompare(b)).forEach(year => {
+  yearsToShow.sort((a, b) => a - b).forEach(year => {
     const th = document.createElement('th');
     th.textContent = year;
     tableHeader.appendChild(th);
@@ -450,7 +291,7 @@ function displayTable(data, columnsToShow) {
     });
     
     // Add year columns
-    columnsToShow.forEach(year => {
+    yearsToShow.forEach(year => {
       const td = document.createElement('td');
       const value = row[year];
       td.textContent = value !== null && value !== undefined ? value : '...';
@@ -469,21 +310,16 @@ function initializePagination() {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   
-  if (!rowsPerPageSelect || !prevBtn || !nextBtn) {
-    console.error('Pagination elements not found!');
-    return;
-  }
-  
   rowsPerPageSelect.addEventListener('change', e => {
     rowsPerPage = parseInt(e.target.value);
     currentPage = 1;
-    displayResults();
+    showResults();
   });
   
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
       currentPage--;
-      displayResults();
+      showResults();
     }
   });
   
@@ -491,11 +327,9 @@ function initializePagination() {
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     if (currentPage < totalPages) {
       currentPage++;
-      displayResults();
+      showResults();
     }
   });
-  
-  console.log('Pagination initialized');
 }
 
 // Update pagination info
@@ -515,7 +349,7 @@ function updatePaginationInfo(totalRows) {
 }
 
 // Display chart
-function displayChart(data, columnsToShow) {
+function displayChart(data, otherColumns, yearsToShow) {
   const chartPlaceholder = document.getElementById('chartPlaceholder');
   const chartContent = document.getElementById('chartContent');
   
@@ -553,27 +387,21 @@ function displayChart(data, columnsToShow) {
     countrySelect.appendChild(option);
   });
   
-  // Remove old event listeners and add new ones
-  const newIndicatorSelect = indicatorSelect.cloneNode(true);
-  const newCountrySelect = countrySelect.cloneNode(true);
-  indicatorSelect.parentNode.replaceChild(newIndicatorSelect, indicatorSelect);
-  countrySelect.parentNode.replaceChild(newCountrySelect, countrySelect);
-  
   // Draw initial chart
-  updateChart(data, columnsToShow);
+  updateChart(data, otherColumns, yearsToShow);
   
   // Update chart on dropdown change
-  document.getElementById('chartIndicatorSelect').addEventListener('change', () => {
-    updateChart(data, columnsToShow);
+  indicatorSelect.addEventListener('change', () => {
+    updateChart(data, otherColumns, yearsToShow);
   });
   
-  document.getElementById('chartCountrySelect').addEventListener('change', () => {
-    updateChart(data, columnsToShow);
+  countrySelect.addEventListener('change', () => {
+    updateChart(data, otherColumns, yearsToShow);
   });
 }
 
 // Update chart based on selected indicator and country
-function updateChart(data, columnsToShow) {
+function updateChart(data, otherColumns, yearsToShow) {
   const selectedIndicator = document.getElementById('chartIndicatorSelect').value;
   const selectedCountry = document.getElementById('chartCountrySelect').value;
   
@@ -586,8 +414,8 @@ function updateChart(data, columnsToShow) {
   if (!chartData) return;
   
   // Prepare chart data
-  const sortedColumns = columnsToShow.sort((a, b) => a.localeCompare(b));
-  const values = sortedColumns.map(col => chartData[col] || null);
+  const sortedYears = yearsToShow.sort((a, b) => a - b);
+  const values = sortedYears.map(year => chartData[year] || null);
   
   // Destroy existing chart
   if (chartInstance) {
@@ -599,7 +427,7 @@ function updateChart(data, columnsToShow) {
   chartInstance = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: sortedColumns,
+      labels: sortedYears,
       datasets: [{
         label: `${selectedIndicator} - ${selectedCountry}`,
         data: values,
@@ -648,9 +476,7 @@ function updateChart(data, columnsToShow) {
           ticks: {
             font: {
               size: 12
-            },
-            maxRotation: 45,
-            minRotation: 45
+            }
           },
           grid: {
             display: false
@@ -663,20 +489,10 @@ function updateChart(data, columnsToShow) {
 
 // Initialize export functionality
 function initializeExport() {
-  const exportBtn = document.getElementById('exportBtn');
-  
-  if (!exportBtn) {
-    console.error('Export button not found!');
-    return;
-  }
-  
-  exportBtn.addEventListener('click', () => {
-    if (filteredData.length === 0) {
-      alert('No data to export. Please select filters and click "Show Results" first.');
-      return;
-    }
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    if (filteredData.length === 0) return;
     
-    // Get current table headers
+    // Get current year columns from table
     const tableHeader = document.getElementById('tableHeader');
     const headers = Array.from(tableHeader.querySelectorAll('th')).map(th => th.textContent);
     
@@ -684,8 +500,11 @@ function initializeExport() {
     let csv = 'data:text/csv;charset=utf-8,';
     csv += headers.join(',') + '\n';
     
-    // Get year columns from headers
-    const yearCols = headers.filter(h => h !== 'Indicator' && h !== 'Category' && h !== 'Country' && h !== 'Notes' && h !== 'Source');
+    // Get all rows from current table (all pages)
+    const firstRow = filteredData[0];
+    const allColumns = Object.keys(firstRow);
+    const otherColumns = allColumns.filter(col => !/^\d{4}$/.test(col));
+    const yearColumns = headers.filter(h => /^\d{4}$/.test(h));
     
     filteredData.forEach(row => {
       const rowData = [];
@@ -697,8 +516,8 @@ function initializeExport() {
       });
       
       // Add year columns
-      yearCols.forEach(col => {
-        const value = row[col];
+      yearColumns.forEach(year => {
+        const value = row[year];
         rowData.push(value !== null && value !== undefined ? value : '...');
       });
       
@@ -708,11 +527,9 @@ function initializeExport() {
     // Download
     const link = document.createElement('a');
     link.href = encodeURI(csv);
-    link.download = `preston_consults_${currentTimeframe}_data.csv`;
+    link.download = 'preston_consults_data_export.csv';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   });
-  
-  console.log('Export button initialized');
 }

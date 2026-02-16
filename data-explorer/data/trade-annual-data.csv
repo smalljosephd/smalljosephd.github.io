@@ -1,0 +1,38 @@
+Indicator,Category,Country,Notes,Source,2018,2019,2020,2021,2022,2023,2024
+Total Exports,Trade Volume,Nigeria,Goods and services in USD billions,World Bank,61.2,68.5,45.3,58.7,65.4,69.8,72.1
+Total Exports,Trade Volume,Kenya,Goods and services in USD billions,World Bank,6.2,6.5,6.1,7.2,7.8,8.3,8.9
+Total Exports,Trade Volume,South Africa,Goods and services in USD billions,World Bank,94.3,90.1,85.7,123.2,108.5,110.2,112.8
+Total Exports,Trade Volume,Egypt,Goods and services in USD billions,World Bank,29.2,28.9,27.3,43.9,51.2,52.3,53.8
+Total Imports,Trade Volume,Nigeria,Goods and services in USD billions,World Bank,52.8,58.3,49.1,54.2,62.3,67.8,70.5
+Total Imports,Trade Volume,Kenya,Goods and services in USD billions,World Bank,17.3,17.9,16.8,18.5,20.1,21.4,22.3
+Total Imports,Trade Volume,South Africa,Goods and services in USD billions,World Bank,91.5,88.2,79.3,97.8,109.5,115.3,119.7
+Total Imports,Trade Volume,Egypt,Goods and services in USD billions,World Bank,75.2,71.8,63.9,74.3,82.1,85.4,88.9
+Trade Balance,Trade Performance,Nigeria,Exports minus imports in USD billions,World Bank,8.4,10.2,-3.8,4.5,3.1,2.0,1.6
+Trade Balance,Trade Performance,Kenya,Exports minus imports in USD billions,World Bank,-11.1,-11.4,-10.7,-11.3,-12.3,-13.1,-13.4
+Trade Balance,Trade Performance,South Africa,Exports minus imports in USD billions,World Bank,2.8,1.9,6.4,25.4,-1.0,-5.1,-6.9
+Trade Balance,Trade Performance,Egypt,Exports minus imports in USD billions,World Bank,-46.0,-42.9,-36.6,-30.4,-30.9,-33.1,-35.1
+Export Growth Rate,Trade Performance,Nigeria,Year-on-year percentage change,IMF,11.2,11.9,-34.0,29.6,11.4,6.7,3.3
+Export Growth Rate,Trade Performance,Kenya,Year-on-year percentage change,IMF,5.2,4.8,-6.2,18.0,8.3,6.4,7.2
+Export Growth Rate,Trade Performance,South Africa,Year-on-year percentage change,IMF,2.1,-4.5,-4.9,43.8,-11.9,1.6,2.4
+Export Growth Rate,Trade Performance,Egypt,Year-on-year percentage change,IMF,8.3,-1.0,-5.5,60.8,16.6,2.1,2.9
+Import Growth Rate,Trade Performance,Nigeria,Year-on-year percentage change,IMF,9.8,10.4,-15.8,10.4,14.9,8.8,3.9
+Import Growth Rate,Trade Performance,Kenya,Year-on-year percentage change,IMF,8.2,3.5,-6.1,10.1,8.6,6.5,4.2
+Import Growth Rate,Trade Performance,South Africa,Year-on-year percentage change,IMF,1.8,-3.6,-10.1,23.3,12.0,5.3,3.8
+Import Growth Rate,Trade Performance,Egypt,Year-on-year percentage change,IMF,16.2,-4.5,-11.0,16.3,10.5,4.0,4.1
+Trade Openness,Trade Performance,Nigeria,Trade as % of GDP,World Bank,21.3,23.1,19.8,22.4,24.1,24.8,25.2
+Trade Openness,Trade Performance,Kenya,Trade as % of GDP,World Bank,28.5,29.2,27.3,29.8,31.2,32.5,33.4
+Trade Openness,Trade Performance,South Africa,Trade as % of GDP,World Bank,58.2,56.8,52.1,61.5,60.3,59.8,59.4
+Trade Openness,Trade Performance,Egypt,Trade as % of GDP,World Bank,42.1,40.2,35.8,41.7,43.9,44.2,44.8
+Oil Exports,Sectoral Trade,Nigeria,Crude oil exports in USD billions,UNCTAD,52.3,58.2,34.1,45.8,53.2,56.9,58.7
+Manufacturing Exports,Sectoral Trade,Nigeria,Manufacturing exports in USD billions,UNCTAD,5.1,5.8,6.2,6.9,7.1,7.5,7.9
+Manufacturing Exports,Sectoral Trade,Kenya,Manufacturing exports in USD billions,UNCTAD,1.8,1.9,1.8,2.1,2.3,2.5,2.7
+Manufacturing Exports,Sectoral Trade,South Africa,Manufacturing exports in USD billions,UNCTAD,52.3,49.8,46.2,58.9,54.2,55.8,57.2
+Manufacturing Exports,Sectoral Trade,Egypt,Manufacturing exports in USD billions,UNCTAD,12.4,12.1,11.5,15.2,17.8,18.5,19.1
+Agricultural Exports,Sectoral Trade,Nigeria,Agricultural exports in USD billions,UNCTAD,2.1,2.5,2.8,3.2,3.4,3.7,4.0
+Agricultural Exports,Sectoral Trade,Kenya,Agricultural exports in USD billions,UNCTAD,3.2,3.4,3.1,3.8,4.1,4.4,4.7
+Agricultural Exports,Sectoral Trade,South Africa,Agricultural exports in USD billions,UNCTAD,9.8,9.5,9.1,12.4,11.8,12.2,12.6
+Agricultural Exports,Sectoral Trade,Egypt,Agricultural exports in USD billions,UNCTAD,4.2,4.0,3.8,5.1,5.9,6.2,6.5
+Services Exports,Sectoral Trade,Nigeria,Services exports in USD billions,WTO,1.7,2.0,2.2,2.8,1.7,1.7,1.5
+Services Exports,Sectoral Trade,Kenya,Services exports in USD billions,WTO,1.2,1.2,1.2,1.3,1.4,1.4,1.5
+Services Exports,Sectoral Trade,South Africa,Services exports in USD billions,WTO,32.2,30.8,30.3,51.9,42.5,42.2,42.9
+Services Exports,Sectoral Trade,Egypt,Services exports in USD billions,WTO,12.6,12.8,12.0,23.6,27.5,27.6,28.2
