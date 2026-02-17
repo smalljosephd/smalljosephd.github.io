@@ -1,0 +1,37 @@
+Indicator,Category,Country,Notes,Source,2018,2019,2020,2021,2022,2023,2024
+GDP Growth Rate,Economic,Nigeria,Annual percentage growth,World Bank,1.9,2.2,-1.8,3.6,3.3,2.9,3.2
+GDP Growth Rate,Economic,Kenya,Annual percentage growth,World Bank,5.7,5.4,5.3,7.5,5.4,5.6,5.3
+GDP Growth Rate,Economic,South Africa,Annual percentage growth,World Bank,1.5,0.2,-6.3,4.9,1.9,0.7,0.9
+GDP Growth Rate,Economic,Egypt,Annual percentage growth,World Bank,5.3,5.6,3.6,3.3,6.6,3.8,3.5
+Inflation Rate,Economic,Nigeria,Consumer price index,IMF,12.1,11.4,13.2,17.0,18.8,24.5,29.9
+Inflation Rate,Economic,Kenya,Consumer price index,IMF,4.7,5.2,5.4,6.1,7.7,7.7,6.6
+Inflation Rate,Economic,South Africa,Consumer price index,IMF,4.6,4.1,3.3,4.5,6.9,6.1,5.3
+Inflation Rate,Economic,Egypt,Consumer price index,IMF,20.9,13.9,5.7,4.5,8.5,33.9,25.7
+Unemployment Rate,Labor,Nigeria,Percentage of labor force,ILO,23.1,23.4,27.1,32.5,33.3,5.3,5.0
+Unemployment Rate,Labor,Kenya,Percentage of labor force,ILO,9.3,5.7,5.6,5.7,5.8,5.6,5.4
+Unemployment Rate,Labor,South Africa,Percentage of labor force,ILO,27.1,28.7,29.2,34.3,32.9,32.6,32.1
+Unemployment Rate,Labor,Egypt,Percentage of labor force,ILO,10.9,8.6,9.2,7.4,7.2,7.1,6.7
+FDI Inflows,Investment,Nigeria,Net inflows in USD billions,UNCTAD,2.0,3.3,0.7,4.8,4.7,3.9,4.2
+FDI Inflows,Investment,Kenya,Net inflows in USD billions,UNCTAD,1.6,1.3,0.5,0.9,0.7,1.0,1.2
+FDI Inflows,Investment,South Africa,Net inflows in USD billions,UNCTAD,5.3,4.6,3.1,40.9,8.9,9.0,6.4
+FDI Inflows,Investment,Egypt,Net inflows in USD billions,UNCTAD,6.8,9.0,5.9,5.1,11.4,10.0,9.8
+Mobile Penetration,Technology,Nigeria,Subscriptions per 100 people,ITU,83.0,87.2,91.5,96.3,104.5,109.2,115.8
+Mobile Penetration,Technology,Kenya,Subscriptions per 100 people,ITU,94.0,98.4,102.3,110.5,119.2,126.4,132.7
+Mobile Penetration,Technology,South Africa,Subscriptions per 100 people,ITU,160.5,164.2,166.3,168.9,171.4,173.8,175.6
+Mobile Penetration,Technology,Egypt,Subscriptions per 100 people,ITU,111.0,94.6,95.3,99.7,102.8,106.3,109.1
+Internet Users,Technology,Nigeria,Percentage of population,ITU,25.7,28.9,35.0,41.0,45.2,51.3,55.4
+Internet Users,Technology,Kenya,Percentage of population,ITU,17.8,22.5,26.6,29.0,32.8,36.5,41.2
+Internet Users,Technology,South Africa,Percentage of population,ITU,54.0,56.2,68.2,70.0,71.8,73.1,74.8
+Internet Users,Technology,Egypt,Percentage of population,ITU,47.5,54.2,57.3,62.0,71.9,75.0,78.5
+Life Expectancy,Health,Nigeria,Years at birth,WHO,54.3,54.5,54.7,53.4,53.8,54.2,54.7
+Life Expectancy,Health,Kenya,Years at birth,WHO,66.3,66.5,66.7,65.5,66.0,66.4,66.9
+Life Expectancy,Health,South Africa,Years at birth,WHO,63.9,64.1,64.3,62.3,62.5,62.8,63.2
+Life Expectancy,Health,Egypt,Years at birth,WHO,71.7,71.8,71.9,70.2,70.5,70.9,71.3
+Literacy Rate,Education,Nigeria,Percentage age 15+,UNESCO,62.0,62.5,63.0,63.5,64.0,64.5,65.0
+Literacy Rate,Education,Kenya,Percentage age 15+,UNESCO,81.5,82.0,82.6,83.1,83.7,84.3,84.9
+Literacy Rate,Education,South Africa,Percentage age 15+,UNESCO,87.0,87.3,87.7,88.0,88.4,88.8,89.2
+Literacy Rate,Education,Egypt,Percentage age 15+,UNESCO,71.2,71.8,72.5,73.2,73.9,74.6,75.3
+CO2 Emissions,Environment,Nigeria,Metric tons per capita,World Bank,0.6,0.6,0.6,0.6,0.6,0.7,0.7
+CO2 Emissions,Environment,Kenya,Metric tons per capita,World Bank,0.4,0.4,0.4,0.4,0.4,0.4,0.4
+CO2 Emissions,Environment,South Africa,Metric tons per capita,World Bank,7.5,7.3,6.8,7.0,7.1,7.2,7.0
+CO2 Emissions,Environment,Egypt,Metric tons per capita,World Bank,2.3,2.3,2.2,2.3,2.4,2.5,2.5
