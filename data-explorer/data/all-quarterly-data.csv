@@ -1,0 +1,37 @@
+Indicator,Category,Country,Notes,Source,2018Q1,2018Q2,2018Q3,2018Q4,2019Q1,2019Q2,2019Q3,2019Q4,2020Q1,2020Q2,2020Q3,2020Q4,2021Q1,2021Q2,2021Q3,2021Q4,2022Q1,2022Q2,2022Q3,2022Q4,2023Q1,2023Q2,2023Q3,2023Q4,2024Q1,2024Q2,2024Q3,2024Q4
+GDP Growth Rate,Economic,Nigeria,Quarterly percentage growth,World Bank,1.8,1.9,2.0,1.9,2.1,2.2,2.3,2.2,1.2,-4.2,-3.1,-0.5,2.5,3.8,4.2,3.9,3.1,3.3,3.4,3.4,2.7,2.9,3.0,3.0,3.0,3.2,3.3,3.3
+GDP Growth Rate,Economic,Kenya,Quarterly percentage growth,World Bank,5.5,5.6,5.8,5.9,5.3,5.4,5.5,5.4,5.6,3.8,5.4,6.4,6.9,7.6,7.8,7.7,5.2,5.3,5.5,5.6,5.4,5.6,5.7,5.7,5.1,5.3,5.4,5.4
+GDP Growth Rate,Economic,South Africa,Quarterly percentage growth,World Bank,1.4,1.5,1.6,1.5,0.3,0.2,0.1,0.2,-2.1,-8.5,-8.9,-5.7,2.1,5.2,6.3,6.0,1.7,1.9,2.0,2.0,0.6,0.7,0.8,0.7,0.8,0.9,1.0,0.9
+GDP Growth Rate,Economic,Egypt,Quarterly percentage growth,World Bank,5.2,5.3,5.4,5.3,5.5,5.6,5.7,5.6,4.2,2.5,3.1,4.6,2.8,3.1,3.5,3.8,6.2,6.6,6.8,6.8,3.5,3.7,3.9,4.0,3.3,3.5,3.6,3.6
+Inflation Rate,Economic,Nigeria,Quarterly consumer price index,IMF,11.9,12.0,12.2,12.3,11.2,11.3,11.5,11.6,12.8,12.9,13.4,13.7,16.5,17.0,17.3,17.2,18.4,18.7,19.0,19.1,23.8,24.5,24.9,24.8,28.9,29.8,30.2,30.5
+Inflation Rate,Economic,Kenya,Quarterly consumer price index,IMF,4.6,4.7,4.8,4.7,5.1,5.2,5.3,5.2,5.3,5.4,5.5,5.4,6.0,6.1,6.2,6.1,7.5,7.6,7.8,7.9,7.6,7.7,7.8,7.7,6.4,6.5,6.7,6.8
+Inflation Rate,Economic,South Africa,Quarterly consumer price index,IMF,4.5,4.6,4.7,4.6,4.0,4.1,4.2,4.1,3.2,3.3,3.4,3.3,4.3,4.5,4.6,4.6,6.7,6.9,7.0,7.0,5.9,6.0,6.2,6.3,5.1,5.2,5.4,5.4
+Inflation Rate,Economic,Egypt,Quarterly consumer price index,IMF,20.5,20.8,21.1,21.2,13.5,13.8,14.1,14.2,5.5,5.6,5.8,5.9,4.3,4.5,4.6,4.6,8.2,8.4,8.6,8.7,32.9,33.8,34.2,34.5,25.0,25.5,25.9,26.4
+Unemployment Rate,Labor,Nigeria,Quarterly percentage of labor force,ILO,22.9,23.0,23.2,23.3,23.2,23.4,23.5,23.5,26.5,27.0,27.3,27.5,31.8,32.5,32.9,32.8,32.9,33.2,33.4,33.5,5.1,5.2,5.3,5.4,4.9,5.0,5.1,5.0
+Unemployment Rate,Labor,Kenya,Quarterly percentage of labor force,ILO,9.2,9.3,9.3,9.4,5.6,5.7,5.7,5.8,5.5,5.6,5.6,5.7,5.6,5.7,5.7,5.8,5.7,5.8,5.8,5.9,5.5,5.6,5.6,5.7,5.3,5.4,5.4,5.5
+Unemployment Rate,Labor,South Africa,Quarterly percentage of labor force,ILO,26.9,27.0,27.2,27.3,28.5,28.6,28.8,28.9,29.0,29.1,29.3,29.4,33.8,34.2,34.5,34.6,32.6,32.8,33.0,33.1,32.4,32.5,32.7,32.8,31.9,32.0,32.2,32.3
+Unemployment Rate,Labor,Egypt,Quarterly percentage of labor force,ILO,10.7,10.8,11.0,11.1,8.4,8.5,8.6,8.7,9.0,9.1,9.2,9.3,7.2,7.3,7.4,7.5,7.1,7.2,7.2,7.3,7.0,7.1,7.1,7.2,6.6,6.7,6.7,6.8
+FDI Inflows,Investment,Nigeria,Quarterly net inflows in USD billions,UNCTAD,0.5,0.5,0.5,0.5,0.8,0.8,0.9,0.8,0.2,0.2,0.2,0.1,1.1,1.2,1.2,1.3,1.1,1.2,1.2,1.2,0.9,1.0,1.0,1.0,1.0,1.1,1.1,1.0
+FDI Inflows,Investment,Kenya,Quarterly net inflows in USD billions,UNCTAD,0.4,0.4,0.4,0.4,0.3,0.3,0.4,0.3,0.1,0.1,0.2,0.1,0.2,0.2,0.3,0.2,0.2,0.2,0.2,0.1,0.2,0.3,0.3,0.2,0.3,0.3,0.3,0.3
+FDI Inflows,Investment,South Africa,Quarterly net inflows in USD billions,UNCTAD,1.3,1.3,1.4,1.3,1.1,1.2,1.2,1.1,0.8,0.8,0.8,0.7,9.2,10.5,10.8,10.4,2.1,2.2,2.3,2.3,2.2,2.3,2.3,2.2,1.5,1.6,1.6,1.7
+FDI Inflows,Investment,Egypt,Quarterly net inflows in USD billions,UNCTAD,1.6,1.7,1.7,1.8,2.2,2.2,2.3,2.3,1.4,1.5,1.5,1.5,1.2,1.3,1.3,1.3,2.7,2.8,2.9,3.0,2.4,2.5,2.5,2.6,2.3,2.4,2.5,2.6
+Mobile Penetration,Technology,Nigeria,Quarterly subscriptions per 100 people,ITU,81.5,82.8,83.6,84.1,85.8,87.2,88.1,88.9,90.2,91.5,92.3,93.0,95.0,96.3,97.2,98.1,102.8,104.5,105.8,106.9,108.0,109.2,110.1,111.0,114.2,115.8,116.9,117.8
+Mobile Penetration,Technology,Kenya,Quarterly subscriptions per 100 people,ITU,92.5,93.8,94.6,95.2,97.0,98.4,99.3,100.1,101.0,102.3,103.2,104.0,108.5,110.5,111.8,113.0,117.5,119.2,120.6,121.8,124.8,126.4,127.6,128.7,131.2,132.7,133.8,134.8
+Mobile Penetration,Technology,South Africa,Quarterly subscriptions per 100 people,ITU,159.2,160.1,161.0,161.7,163.0,164.2,165.0,165.7,165.5,166.3,166.9,167.4,167.8,168.9,169.6,170.2,170.5,171.4,172.0,172.6,172.9,173.8,174.4,174.9,175.0,175.6,176.1,176.6
+Mobile Penetration,Technology,Egypt,Quarterly subscriptions per 100 people,ITU,109.5,110.8,111.5,112.2,93.2,94.6,95.3,96.0,94.0,95.3,96.0,96.6,98.5,99.7,100.6,101.4,101.6,102.8,103.5,104.2,105.1,106.3,107.1,107.8,108.0,109.1,109.8,110.4
+Internet Users,Technology,Nigeria,Quarterly percentage of population,ITU,24.8,25.5,26.0,26.5,27.9,28.9,29.6,30.2,33.8,35.0,36.0,36.8,39.8,41.0,42.0,42.8,44.2,45.2,46.0,46.7,50.1,51.3,52.2,53.0,54.3,55.4,56.2,56.9
+Internet Users,Technology,Kenya,Quarterly percentage of population,ITU,17.1,17.6,18.0,18.4,21.8,22.5,23.0,23.5,25.6,26.6,27.3,27.9,28.2,29.0,29.6,30.2,31.9,32.8,33.5,34.1,35.6,36.5,37.2,37.8,40.3,41.2,41.9,42.5
+Internet Users,Technology,South Africa,Quarterly percentage of population,ITU,53.2,53.8,54.3,54.7,55.5,56.2,56.7,57.2,67.2,68.2,68.9,69.4,69.3,70.0,70.5,71.0,71.2,71.8,72.3,72.7,72.5,73.1,73.5,73.9,74.2,74.8,75.2,75.6
+Internet Users,Technology,Egypt,Quarterly percentage of population,ITU,46.8,47.3,47.8,48.2,53.5,54.2,54.8,55.3,56.5,57.3,57.9,58.4,61.2,62.0,62.6,63.2,71.0,71.9,72.6,73.2,74.2,75.0,75.6,76.2,77.8,78.5,79.1,79.6
+Life Expectancy,Health,Nigeria,Quarterly years at birth,WHO,54.2,54.3,54.3,54.4,54.4,54.5,54.5,54.6,54.6,54.7,54.7,54.8,53.2,53.4,53.5,53.6,53.7,53.8,53.8,53.9,54.1,54.2,54.2,54.3,54.6,54.7,54.7,54.8
+Life Expectancy,Health,Kenya,Quarterly years at birth,WHO,66.2,66.3,66.3,66.4,66.4,66.5,66.5,66.6,66.6,66.7,66.7,66.8,65.3,65.5,65.6,65.7,65.9,66.0,66.0,66.1,66.3,66.4,66.4,66.5,66.8,66.9,66.9,67.0
+Life Expectancy,Health,South Africa,Quarterly years at birth,WHO,63.8,63.9,63.9,64.0,64.0,64.1,64.1,64.2,64.2,64.3,64.3,64.4,62.1,62.3,62.4,62.5,62.4,62.5,62.5,62.6,62.7,62.8,62.8,62.9,63.1,63.2,63.2,63.3
+Life Expectancy,Health,Egypt,Quarterly years at birth,WHO,71.6,71.7,71.7,71.8,71.7,71.8,71.8,71.9,71.8,71.9,71.9,72.0,70.0,70.2,70.3,70.4,70.4,70.5,70.5,70.6,70.8,70.9,70.9,71.0,71.2,71.3,71.3,71.4
+Literacy Rate,Education,Nigeria,Quarterly percentage age 15+,UNESCO,61.9,62.0,62.0,62.1,62.4,62.5,62.5,62.6,62.9,63.0,63.0,63.1,63.4,63.5,63.5,63.6,63.9,64.0,64.0,64.1,64.4,64.5,64.5,64.6,64.9,65.0,65.0,65.1
+Literacy Rate,Education,Kenya,Quarterly percentage age 15+,UNESCO,81.4,81.5,81.5,81.6,81.9,82.0,82.0,82.1,82.5,82.6,82.6,82.7,83.0,83.1,83.1,83.2,83.6,83.7,83.7,83.8,84.2,84.3,84.3,84.4,84.8,84.9,84.9,85.0
+Literacy Rate,Education,South Africa,Quarterly percentage age 15+,UNESCO,86.9,87.0,87.0,87.1,87.2,87.3,87.3,87.4,87.6,87.7,87.7,87.8,87.9,88.0,88.0,88.1,88.3,88.4,88.4,88.5,88.7,88.8,88.8,88.9,89.1,89.2,89.2,89.3
+Literacy Rate,Education,Egypt,Quarterly percentage age 15+,UNESCO,71.1,71.2,71.2,71.3,71.7,71.8,71.8,71.9,72.4,72.5,72.5,72.6,73.1,73.2,73.2,73.3,73.8,73.9,73.9,74.0,74.5,74.6,74.6,74.7,75.2,75.3,75.3,75.4
+CO2 Emissions,Environment,Nigeria,Quarterly metric tons per capita,World Bank,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7
+CO2 Emissions,Environment,Kenya,Quarterly metric tons per capita,World Bank,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4
+CO2 Emissions,Environment,South Africa,Quarterly metric tons per capita,World Bank,7.4,7.5,7.5,7.6,7.2,7.3,7.3,7.4,6.7,6.8,6.8,6.9,6.9,7.0,7.0,7.1,7.0,7.1,7.1,7.2,7.1,7.2,7.2,7.3,6.9,7.0,7.0,7.1
+CO2 Emissions,Environment,Egypt,Quarterly metric tons per capita,World Bank,2.3,2.3,2.3,2.3,2.3,2.3,2.3,2.3,2.2,2.2,2.2,2.2,2.3,2.3,2.3,2.3,2.4,2.4,2.4,2.4,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5
