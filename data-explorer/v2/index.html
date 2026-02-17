@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preston Consults Data Repository</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="main-header" id="mainHeader">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="logo-link">
+          <div class="logo">
+            <i class="fa-solid fa-chart-column logo-icon"></i>
+            <span class="logo-text-full">Preston Consults Data Repository</span>
+            <span class="logo-text-short">PC Data Repo</span>
+          </div>
+        </a>
+      </div>
+      
+      <nav class="header-nav" id="headerNav">
+        <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="all-data.html" class="nav-link"><i class="fa-solid fa-database"></i> All Data</a>
+        <a href="trade-data.html" class="nav-link"><i class="fa-solid fa-ship"></i> Trade Data</a>
+        <a href="about.html" class="nav-link"><i class="fa-solid fa-users"></i> About Team</a>
+        <a href="faq.html" class="nav-link"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+        <a href="#contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Contact</a>
+      </nav>
+      
+      <div class="header-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-sun theme-icon sun"></i>
+          <i class="fa-solid fa-moon theme-icon moon"></i>
+        </button>
+        <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1>Preston Consults Data Repository</h1>
+      <p class="hero-subtitle">Comprehensive economic, social, and development indicators across Africa</p>
+      <p class="hero-description">Access detailed datasets with annual, quarterly, and monthly granularity for strategic analysis and decision-making</p>
+    </div>
+  </section>
+
+  <!-- Explore Data by Type -->
+  <section class="explore-section">
+    <div class="container">
+      <h2>Explore Data by Type</h2>
+      <p class="section-subtitle">Choose the dataset that best fits your research and analysis needs</p>
+      
+      <div class="explore-grid">
+        
+        <!-- All Data Card -->
+        <a href="all-data.html" class="explore-card">
+          <div class="card-icon"><i class="fa-solid fa-database"></i></div>
+          <h3>All Data Explorer</h3>
+          <p class="card-description">Comprehensive multi-sector data covering economic, social, health, education, technology, and environmental indicators</p>
+          <ul class="card-features">
+            <li>Economic indicators (GDP, inflation, unemployment)</li>
+            <li>Social development metrics</li>
+            <li>Health and education statistics</li>
+            <li>Technology and digital adoption</li>
+            <li>Environmental data</li>
+            <li>Investment flows and trade</li>
+          </ul>
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-number">10+</span>
+              <span class="stat-label">Categories</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Indicators</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">4</span>
+              <span class="stat-label">Countries</span>
+            </div>
+          </div>
+          <div class="card-action">
+            <span>Explore All Data</span>
+            <i class="fa-solid fa-arrow-right arrow"></i>
+          </div>
+        </a>
+
+        <!-- Trade Data Card -->
+        <a href="trade-data.html" class="explore-card">
+          <div class="card-icon"><i class="fa-solid fa-ship"></i></div>
+          <h3>Trade Data Explorer</h3>
+          <p class="card-description">Specialized trade and commerce data including exports, imports, trade balance, tariffs, and regional trade agreements</p>
+          <ul class="card-features">
+            <li>Export and import values by sector</li>
+            <li>Trade balance and terms of trade</li>
+            <li>Tariff rates and trade barriers</li>
+            <li>Regional trade agreements</li>
+            <li>Top trading partners</li>
+            <li>Trade competitiveness indices</li>
+          </ul>
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-number">15+</span>
+              <span class="stat-label">Trade Metrics</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">20+</span>
+              <span class="stat-label">Sectors</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">4</span>
+              <span class="stat-label">Countries</span>
+            </div>
+          </div>
+          <div class="card-action">
+            <span>Explore Trade Data</span>
+            <i class="fa-solid fa-arrow-right arrow"></i>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Repository Features -->
+  <section class="features-section">
+    <div class="container">
+      <h2>Repository Features</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <h4>Interactive Visualization</h4>
+          <p>Dynamic charts and tables for comprehensive data analysis</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
+          <h4>Advanced Filtering</h4>
+          <p>Multi-dimensional filtering by indicators, countries, and time periods</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
+          <h4>Data Export</h4>
+          <p>Download filtered datasets in CSV format for further analysis</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
+          <h4>Multiple Timeframes</h4>
+          <p>Annual, quarterly, and monthly data for flexible analysis</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-chart-area"></i></div>
+          <h4>Chart Analytics</h4>
+          <p>Interactive line charts with trend analysis capabilities</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+          <h4>Responsive Design</h4>
+          <p>Optimized for desktop, tablet, and mobile devices</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-circle-half-stroke"></i></div>
+          <h4>Dark Mode</h4>
+          <p>Eye-friendly dark theme for comfortable viewing</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <h4>Fast Performance</h4>
+          <p>Efficient pagination and data loading</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Sources -->
+  <section class="sources-section">
+    <div class="container">
+      <h2>Our Data Sources</h2>
+      <p class="sources-intro">We collaborate with leading international organizations to ensure the highest quality and most current data</p>
+      <div class="sources-grid">
+        <div class="source-badge"><i class="fa-solid fa-building-columns"></i> World Bank</div>
+        <div class="source-badge"><i class="fa-solid fa-coins"></i> IMF</div>
+        <div class="source-badge"><i class="fa-solid fa-people-group"></i> ILO</div>
+        <div class="source-badge"><i class="fa-solid fa-globe"></i> UNCTAD</div>
+        <div class="source-badge"><i class="fa-solid fa-handshake"></i> WTO</div>
+        <div class="source-badge"><i class="fa-solid fa-wifi"></i> ITU</div>
+        <div class="source-badge"><i class="fa-solid fa-heart-pulse"></i> WHO</div>
+        <div class="source-badge"><i class="fa-solid fa-graduation-cap"></i> UNESCO</div>
+        <div class="source-badge"><i class="fa-solid fa-landmark"></i> African Development Bank</div>
+        <div class="source-badge"><i class="fa-solid fa-ship"></i> UN Comtrade</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <div class="footer-section">
+          <h4>About Repository</h4>
+          <p>The Preston Consults Data Repository provides comprehensive socio-economic data and development indicators for strategic analysis and decision-making across Africa.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="all-data.html">All Data Explorer</a></li>
+            <li><a href="trade-data.html">Trade Data Explorer</a></li>
+            <li><a href="about.html">About Team</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Data Sources</h4>
+          <p>World Bank, IMF, ILO, UNCTAD, WTO, ITU, WHO, UNESCO, African Development Bank, UN Comtrade</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contact Us</h4>
+          <p><strong>Email:</strong> <a href="/cdn-cgi/l/email-protection#eb998e988e8a998883ab9b998e989f8485888485989e879f98c5888486"><span class="__cf_email__" data-cfemail="8bf9eef8eeeaf9e8e3cbfbf9eef8ffe4e5e8e4e5f8fee7fff8a5e8e4e6">[email&#160;protected]</span></a></p>
+          <p><strong>Phone:</strong> +234 (0) 123 456 7890</p>
+          <p><strong>Address:</strong> Abuja, Nigeria</p>
+        </div>
+        
+      </div>
+      
+      <div class="footer-bottom">
+        <p><strong>Developed by:</strong> Preston Consults Ltd Research and Data Analysis Team</p>
+        <p class="copyright">© 2025 Preston Consults Ltd. 
