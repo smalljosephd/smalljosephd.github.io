@@ -6,6 +6,7 @@
   <title>FAQ - Preston Consults</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/x-icon" href="image/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   
@@ -23,19 +24,22 @@
       </div>
       
       <nav class="header-nav" id="headerNav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="all-data.html" class="nav-link">All Data Explorer</a>
-        <a href="trade-data.html" class="nav-link">Trade Data Explorer</a>
-        <a href="about.html" class="nav-link">About Team</a>
-        <a href="faq.html" class="nav-link active">FAQ</a>
-        <a href="index.html#contact" class="nav-link">Contact</a>
+        <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="all-data.html" class="nav-link"><i class="fa-solid fa-database"></i> All Data</a>
+        <a href="trade-data.html" class="nav-link"><i class="fa-solid fa-ship"></i> Trade Data</a>
+        <a href="about.html" class="nav-link"><i class="fa-solid fa-users"></i>   About Team</a>
+        <a href="faq.html" class="nav-link"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+        <a href="#contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Contact</a>
       </nav>
       
       <div class="header-right">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-          <span class="theme-icon sun"><img src="image/sun-white.png" width="25" height="25"></span>
-          <!-- <span class="theme-icon sun">☀</span> -->
+          <i class="fa-solid fa-sun theme-icon sun"></i>
+          <i class="fa-solid fa-moon theme-icon moon"></i>
+        <!-- Old toggle with image          
+<span class="theme-icon sun"><img src="image/sun-white.png" width="25" height="25"></span>
           <span class="theme-icon moon"><img src="image/moon-white.png" width="30" height="30"></span>
+          -->          
         </button>
         <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle menu">
           <span></span>

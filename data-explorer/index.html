@@ -6,6 +6,7 @@
   <title>Preston Consults Data Repository - Preston Consults</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/x-icon" href="image/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   
@@ -23,19 +24,22 @@
       </div>
       
       <nav class="header-nav" id="headerNav">
-        <a href="index.html" class="nav-link active">Home</a>
-        <a href="all-data.html" class="nav-link">All Data Explorer</a>
-        <a href="trade-data.html" class="nav-link">Trade Data Explorer</a>
-        <a href="about.html" class="nav-link">About Team</a>
-        <a href="faq.html" class="nav-link">FAQ</a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="all-data.html" class="nav-link"><i class="fa-solid fa-database"></i> All Data</a>
+        <a href="trade-data.html" class="nav-link"><i class="fa-solid fa-ship"></i> Trade Data</a>
+        <a href="about.html" class="nav-link"><i class="fa-solid fa-users"></i>   About Team</a>
+        <a href="faq.html" class="nav-link"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+        <a href="#contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Contact</a>
       </nav>
       
       <div class="header-right">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-          <span class="theme-icon sun"><img src="image/sun-white.png" width="25" height="25"></span>
-          <!-- <span class="theme-icon sun">☀</span> -->
+          <i class="fa-solid fa-sun theme-icon sun"></i>
+          <i class="fa-solid fa-moon theme-icon moon"></i>
+        <!-- Old toggle with image          
+<span class="theme-icon sun"><img src="image/sun-white.png" width="25" height="25"></span>
           <span class="theme-icon moon"><img src="image/moon-white.png" width="30" height="30"></span>
+          -->          
         </button>
         <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle menu">
           <span></span>
@@ -68,7 +72,7 @@
         
         <!-- All Data Card -->
         <a href="all-data.html" class="explore-card">
-          <div class="card-icon">📊</div>
+          <div class="card-icon"><i class="fa-solid fa-database"></i></div>
           <h3>All Data Explorer</h3>
           <p class="card-description">Comprehensive multi-sector data covering economic, development, inevstment, trade, financial, education, and technology etc. </p>
           <ul class="card-features">
@@ -94,13 +98,13 @@
           </div>
           <div class="card-action">
             <span>Explore All Data</span>
-            <span class="arrow">→</span>
+            <i class="fa-solid fa-arrow-right arrow"></i>
           </div>
         </a>
 
         <!-- Trade Data Card -->
         <a href="trade-data.html" class="explore-card">
-          <div class="card-icon">🌍</div>
+          <div class="card-icon"><i class="fa-solid fa-ship"></i></div>
           <h3>Trade Data Explorer</h3>
           <p class="card-description">Specialized foreign trade and investment data including exports, imports, trade balance.</p>
           <ul class="card-features">
@@ -125,7 +129,7 @@
           </div>
           <div class="card-action">
             <span>Explore Trade Data</span>
-            <span class="arrow">→</span>
+            <i class="fa-solid fa-arrow-right arrow"></i>
           </div>
         </a>
 
@@ -139,42 +143,42 @@
       <h2>Repository Features</h2>
       <div class="features-grid">
         <div class="feature-item">
-          <div class="feature-icon">📊</div>
+          <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
           <h4>Interactive Visualization</h4>
           <p>Dynamic charts and tables for comprehensive data analysis</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">🔍</div>
+          <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
           <h4>Advanced Filtering</h4>
           <p>Multi-dimensional filtering by indicators, countries, and time periods</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">📥</div>
+          <div class="feature-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
           <h4>Data Export</h4>
           <p>Download filtered datasets in CSV format for further analysis</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">⏱️</div>
+          <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
           <h4>Multiple Timeframes</h4>
           <p>Annual, quarterly, and monthly data for flexible analysis</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">📈</div>
+          <div class="feature-icon"><i class="fa-solid fa-chart-area"></i></div>
           <h4>Chart Analytics</h4>
           <p>Interactive line charts with trend analysis capabilities</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">📱</div>
+          <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
           <h4>Responsive Design</h4>
           <p>Optimized for desktop, tablet, and mobile devices</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">🌓</div>
+          <div class="feature-icon"><i class="fa-solid fa-circle-half-stroke"></i></div>
           <h4>Dark Mode</h4>
           <p>Eye-friendly dark theme for comfortable viewing</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon">⚡</div>
+          <div class="feature-icon"><i class="fa-solid fa-gauge-high"></i></div>
           <h4>Fast Performance</h4>
           <p>Efficient pagination and data loading</p>
         </div>
@@ -188,14 +192,21 @@
       <h2>Our Data Sources</h2>
       <p class="sources-intro">We collaborate with leading national agencies and international organizations to ensure the highest quality and most current data</p>
       <div class="sources-grid">
-        <div class="source-badge">World Bank</div>
-        <div class="source-badge">International Monetary Fund (IMF)</div>
-        <div class="source-badge">Central Bank of Nigeria (CBN)</div>
-        <div class="source-badge">National Bureau of Statistics (NBS)</div>
-        <div class="source-badge">UN Trade and Development (UNCTAD)</div>
-        <div class="source-badge">Afrexim Bank</div>
-        <div class="source-badge">African Development Bank</div>
-        <div class="source-badge">UN Comtrade</div>
+        <div class="source-badge"><i class="fa-solid fa-building-columns"></i>World Bank</div>
+        <div class="source-badge"><i class="fa-solid fa-coins"></i>International Monetary Fund (IMF)</div>
+        <div class="source-badge"><i class="fa-solid fa-coins"></i>Central Bank of Nigeria (CBN)</div>
+        <div class="source-badge"><i class="fa-solid fa-chart-area"></i>National Bureau of Statistics (NBS)</div>
+        <div class="source-badge"><i class="fa-solid fa-globe"></i>UN Trade and Development (UNCTAD)</div>
+        <div class="source-badge"><i class="fa-solid fa-dollar"></i>Afrexim Bank</div>
+        <div class="source-badge"><i class="fa-solid fa-landmark"></i>African Development Bank</div>
+        <div class="source-badge"><i class="fa-solid fa-ship"></i>UN Comtrade</div>
+      <div class="source-badge"><i class="fa-solid fa-people-group"></i> ILO</div>
+        <div class="source-badge"><i class="fa-solid fa-handshake"></i> WTO</div>
+       <!--
+        <div class="source-badge"><i class="fa-solid fa-wifi"></i> ITU</div>
+        <div class="source-badge"><i class="fa-solid fa-heart-pulse"></i> WHO</div>
+        <div class="source-badge"><i class="fa-solid fa-graduation-cap"></i> UNESCO</div>
+        -->
       </div>
     </div>
   </section>

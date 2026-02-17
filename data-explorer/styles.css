@@ -152,7 +152,12 @@ body {
   gap: 15px;
 }
 
-/* Theme Toggle */
+/* ==================== ICON STYLES (Font Awesome) ==================== */
+.logo-icon {
+  font-size: 26px;
+  color: white;
+}
+
 .theme-toggle {
   background: rgba(255, 255, 255, 0.15);
   border: none;
@@ -163,8 +168,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 16px;
   transition: all 0.3s ease;
+  color: white;
 }
 
 .theme-toggle:hover {
@@ -174,6 +180,102 @@ body {
 
 .theme-icon {
   transition: all 0.3s ease;
+}
+
+.nav-link i {
+  width: 16px;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.card-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(42, 82, 152, 0.3);
+}
+
+.card-icon i {
+  font-size: 32px;
+  color: white;
+}
+
+.card-action .arrow {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.explore-card:hover .card-action .arrow {
+  transform: translateX(8px);
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 12px rgba(42, 82, 152, 0.25);
+}
+
+.feature-icon i {
+  font-size: 24px;
+  color: white;
+}
+
+.source-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.source-badge i {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.footer-links a i {
+  width: 16px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.main-footer .footer-section p i {
+  width: 18px;
+  margin-right: 4px;
+  opacity: 0.85;
+}
+
+.approach-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 14px rgba(42, 82, 152, 0.25);
+}
+
+.approach-icon i {
+  font-size: 28px;
+  color: white;
+}
+
+/* Dark mode icon adjustments */
+[data-theme="dark"] .card-icon,
+[data-theme="dark"] .feature-icon,
+[data-theme="dark"] .approach-icon {
+  box-shadow: 0 4px 14px rgba(74, 123, 200, 0.4);
 }
 
 /* Hamburger Menu */
@@ -1722,4 +1824,40 @@ body {
   .hero-section h1 {
     font-size: 28px;
   }
+}
+
+/* ==================== BUTTON ICON STYLES ==================== */
+.primary-btn i,
+.secondary-btn i,
+.view-btn i,
+.filter-toggle-btn i,
+.pagination-btn i,
+.cta-button i {
+  margin-right: 6px;
+}
+
+.pagination-btn i {
+  margin: 0;
+}
+
+#prevBtn i { margin-right: 6px; }
+#nextBtn i { margin-left: 6px; margin-right: 0; }
+
+.filter-toggle-btn i {
+  font-size: 14px;
+}
+
+/* Sidebar header close button as icon */
+.close-sidebar {
+  font-size: 20px;
+  color: var(--text-secondary);
+}
+
+/* FA icon sizing tweaks */
+.logo-icon.fa-chart-column {
+  font-size: 22px;
+}
+
+.fa-solid, .fa-regular {
+  line-height: inherit;
 }
