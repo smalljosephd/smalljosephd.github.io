@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academic Reference Checker — Reference Verifier for Academic Writing</title>
+<meta name="description" content="Free browser-based tool that cross-checks in-text citations against the reference list of any academic document. Catches missing references, year mismatches, and spelling errors. Runs locally — no data uploaded.">
+<meta name="author" content="Dr. Yemisi Olagunju">
+<meta name="keywords" content="citation checker, reference checker, thesis, dissertation, referencing, academic writing, citation verification, reference verifier">
+<meta property="og:title" content="Academic Reference Checker">
+<meta property="og:description" content="Reference verifier for academic writing — cross-check every citation against your reference list in seconds.">
+<meta property="og:type" content="website">
+<style>
+  body { font-family: 'Times New Roman', Georgia, serif; max-width: 1200px; margin: 0 auto; padding: 20px; background: #f5f5f5; color: #222; line-height: 1.5; }
+  h1 { text-align: center; color: #1a3a5c; border-bottom: 2px solid #1a3a5c; padding-bottom: 10px; }
+  h2 { color: #1a3a5c; margin-top: 30px; border-left: 4px solid #1a3a5c; padding-left: 10px; }
+  .panel { background: white; border: 1px solid #ccc; border-radius: 6px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+  .inputArea { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  textarea { width: 100%; min-height: 250px; padding: 10px; font-family: 'Times New Roman', Georgia, serif; font-size: 14px; border: 1px solid #aaa; border-radius: 4px; resize: vertical; box-sizing: border-box; }
+  label { font-weight: bold; display: block; margin-bottom: 5px; color: #1a3a5c; }
+  button { background: #1a3a5c; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 4px; cursor: pointer; margin-top: 10px; margin-right: 10px; font-family: inherit; }
+  button:hover { background: #2a5a8c; }
+  button.secondary { background: #6c757d; }
+  button.secondary:hover { background: #8c989f; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 20px 0; }
+  .stat-card { background: #1a3a5c; color: white; padding: 15px; border-radius: 6px; text-align: center; }
+  .stat-card .num { font-size: 32px; font-weight: bold; }
+  .stat-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+  .stat-card.good { background: #28a745; }
+  .stat-card.warn { background: #ffc107; color: #333; }
+  .stat-card.bad { background: #dc3545; }
+  .stat-card.info { background: #17a2b8; }
+  table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+  th { background: #1a3a5c; color: white; padding: 10px; text-align: left; font-size: 14px; }
+  td { padding: 8px 10px; border-bottom: 1px solid #eee; font-size: 14px; vertical-align: top; }
+  tr.matched { background: #e8f5e9; }
+  tr.year-mismatch { background: #fff3cd; }
+  tr.spelling-mismatch { background: #ffe4b5; }
+  tr.missing { background: #f8d7da; }
+  tr.uncited { background: #e1ecf4; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+  .badge.matched { background: #28a745; color: white; }
+  .badge.year-mismatch { background: #ffc107; color: #333; }
+  .badge.spelling-mismatch { background: #fd7e14; color: white; }
+  .badge.missing { background: #dc3545; color: white; }
+  .badge.uncited { background: #17a2b8; color: white; }
+  .legend { background: #fafafa; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; }
+  .legend span { margin-right: 15px; }
+  details { background: #fafafa; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: bold; color: #1a3a5c; }
+  .note { background: #fff8e1; border-left: 4px solid #ffc107; padding: 10px; border-radius: 4px; margin: 10px 0; font-size: 13px; }
+  .instructions { background: #e1ecf4; padding: 15px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; }
+  .instructions ol { margin: 10px 0 0 20px; }
+  .filter-bar { margin: 10px 0; }
+  .filter-bar label { display: inline-block; margin-right: 15px; font-weight: normal; cursor: pointer; }
+  .filter-bar input { margin-right: 5px; }
+  .hidden { display: none; }
+  .count-pill { background: #1a3a5c; color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 8px; }
+  .about-box { background: linear-gradient(135deg, #1a3a5c 0%, #2c5282 100%); color: white; padding: 25px; border-radius: 8px; margin-bottom: 20px; }
+  .about-box h2 { color: white; border: none; padding: 0; margin-top: 0; }
+  .about-box p { margin: 8px 0; }
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 15px; }
+  .feature { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 6px; border-left: 3px solid #ffc107; }
+  .feature strong { display: block; color: #ffc107; margin-bottom: 4px; font-size: 14px; }
+  .feature span { font-size: 13px; }
+  .disclaimer { background: #fff8e1; border: 1px solid #ffc107; border-radius: 6px; padding: 15px; margin: 20px 0; font-size: 13px; }
+  .disclaimer strong { color: #856404; }
+  footer { background: #1a3a5c; color: white; padding: 30px 20px; margin-top: 40px; border-radius: 8px; text-align: center; }
+  footer h3 { margin: 0 0 10px 0; color: white; }
+  footer p { margin: 8px 0; font-size: 14px; }
+  footer a { color: #ffc107; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .author { font-size: 16px; font-weight: bold; margin-top: 15px; }
+  footer .small { font-size: 12px; opacity: 0.8; margin-top: 15px; }
+  @media (max-width: 768px) {
+    .inputArea { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<h1>ACADEMIC REFERENCE CHECKER</h1>
+<p style="text-align:center; color:#666; font-size:16px; margin-top:0; font-style:italic;">Reference Verifier for Academic Writing</p>
+
+<div class="about-box">
+  <h2>About this tool</h2>
+  <p>Academic Reference Checker scans the body text of any academic document — thesis, dissertation, journal article, research report, book chapter — extracts every in-text citation, and cross-checks each one against your reference list. It identifies citations that have no matching reference, references in your list that were never cited, year discrepancies between text and list, and possible spelling typos in author surnames.</p>
+  <p style="margin-top:12px;"><strong>Built for the realities of academic writing.</strong> A typical thesis cites 200–400 sources, and a literature review or research paper can easily exceed 100 citations. Manual verification is exhausting and error-prone. This tool does it in seconds.</p>
+  <div class="feature-grid">
+    <div class="feature"><strong>🔒 Private</strong><span>Runs entirely in your browser. Your document is never uploaded or shared.</span></div>
+    <div class="feature"><strong>📄 Flexible input</strong><span>Paste text directly or upload .docx or .txt files.</span></div>
+    <div class="feature"><strong>🎨 Colour-coded</strong><span>Issues highlighted by severity for easy scanning.</span></div>
+    <div class="feature"><strong>💾 Downloadable</strong><span>Save the full report as an HTML file for records or sharing.</span></div>
+    <div class="feature"><strong>🔍 Fuzzy matching</strong><span>Catches typos like "Tripathy" vs "Tripathi" or "Chaudhary" vs "Chauhdary".</span></div>
+    <div class="feature"><strong>📚 Style-flexible</strong><span>Works with author-date citation styles including APA, Harvard, UIMS, and similar conventions.</span></div>
+  </div>
+</div>
+
+<div class="instructions">
+  <strong>How to use:</strong>
+  <ol>
+    <li>Paste the <strong>full body text</strong> of your document (excluding the reference list itself) in the left box, or upload a .txt or .docx file.</li>
+    <li>Paste your <strong>reference list</strong> in the right box, or upload it as a file.</li>
+    <li>Click <strong>"Run Check"</strong>. Results appear below, colour-coded by issue type.</li>
+    <li>Use the filter checkboxes to focus on specific issue types. Click <strong>"Download HTML Report"</strong> to save the complete colour-coded report for your records.</li>
+  </ol>
+  <p style="margin-top:12px; font-size:13px;"><strong>Tip:</strong> Click <em>"Load Sample"</em> below to see how the tool works with example data before running it on your own document.</p>
+</div>
+
+<div class="disclaimer">
+  <strong>⚠️ Important:</strong> This tool helps identify potential citation issues but is not a substitute for manual verification. Always confirm flagged items by checking your actual document. The tool works best with cleanly formatted text using author-date citation conventions — heavily reformatted documents or numeric citation styles (e.g. Vancouver-style [1], [2]) are not supported.
+</div>
+
+<div class="panel">
+  <h2>Input</h2>
+  <div class="inputArea">
+    <div>
+      <label for="bodyText">Body text of your document</label>
+      <textarea id="bodyText" placeholder="Paste the body text of your document here (excluding the reference list). The tool will extract every in-text citation in formats: 'Author (Year)', '(Author, Year)', 'Author et al. (Year)', 'Author and Author2 (Year)', etc."></textarea>
+      <input type="file" id="bodyFile" accept=".txt,.docx" style="margin-top:8px;">
+    </div>
+    <div>
+      <label for="refList">Reference list</label>
+      <textarea id="refList" placeholder="Paste your full reference list here. Author-date format expected: 'Surname, A.B. and Surname2, C.D. (Year). Title of paper. Journal Name 12(3): 45-67.'"></textarea>
+      <input type="file" id="refFile" accept=".txt,.docx" style="margin-top:8px;">
+    </div>
+  </div>
+  <button onclick="runCheck()">Run Check</button>
+  <button class="secondary" onclick="clearAll()">Clear</button>
+  <button class="secondary" onclick="loadSample()">Load Sample (for testing)</button>
+</div>
+
+<div id="results" class="hidden">
+
+  <div class="panel">
+    <h2>Summary</h2>
+    <div class="stats">
+      <div class="stat-card good"><div class="num" id="statMatched">0</div><div class="label">Matched</div></div>
+      <div class="stat-card warn"><div class="num" id="statYear">0</div><div class="label">Year Mismatch</div></div>
+      <div class="stat-card warn"><div class="num" id="statSpelling">0</div><div class="label">Spelling Mismatch</div></div>
+      <div class="stat-card bad"><div class="num" id="statMissing">0</div><div class="label">Missing from Refs</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat-card info"><div class="num" id="statUncited">0</div><div class="label">Uncited Refs</div></div>
+      <div class="stat-card info"><div class="num" id="statUniqueCites">0</div><div class="label">Unique Citations</div></div>
+      <div class="stat-card info"><div class="num" id="statTotalRefs">0</div><div class="label">Total References</div></div>
+      <div class="stat-card" style="background:#1a3a5c;"><div class="num" id="statCompliance">0%</div><div class="label">Compliance</div></div>
+    </div>
+    <button onclick="downloadReport()">Download HTML Report</button>
+  </div>
+
+  <div class="panel">
+    <h2>Citation Analysis <span class="count-pill" id="citationCount">0</span></h2>
+    <div class="legend">
+      <span><span class="badge matched">Matched</span> Citation found in reference list with correct year</span><br>
+      <span><span class="badge year-mismatch">Year Mismatch</span> Author exists in list but year differs</span><br>
+      <span><span class="badge spelling-mismatch">Spelling</span> Possible typo — similar author name found</span><br>
+      <span><span class="badge missing">Missing</span> No matching reference found</span>
+    </div>
+    <div class="filter-bar">
+      Show: 
+      <label><input type="checkbox" class="filterChk" data-type="matched" checked> Matched</label>
+      <label><input type="checkbox" class="filterChk" data-type="year-mismatch" checked> Year Mismatch</label>
+      <label><input type="checkbox" class="filterChk" data-type="spelling-mismatch" checked> Spelling</label>
+      <label><input type="checkbox" class="filterChk" data-type="missing" checked> Missing</label>
+    </div>
+    <table id="citationTable">
+      <thead><tr><th>Status</th><th>Citation (as written)</th><th>Times Cited</th><th>Notes</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Uncited References <span class="count-pill" id="uncitedCount">0</span></h2>
+    <p style="font-size:13px; color:#666;">References in your list that are not cited anywhere in the body text.</p>
+    <table id="uncitedTable">
+      <thead><tr><th>Reference</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+// ============== UTILITIES ==============
+
+function normalizeWS(s) { return s.replace(/\s+/g, ' ').trim(); }
+
+// Levenshtein distance for fuzzy matching of surnames
+function lev(a, b) {
+  if (a === b) return 0;
+  const m = a.length, n = b.length;
+  if (!m || !n) return m + n;
+  const dp = Array(n + 1);
+  for (let j = 0; j <= n; j++) dp[j] = j;
+  for (let i = 1; i <= m; i++) {
+    let prev = dp[0]; dp[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const tmp = dp[j];
+      dp[j] = a[i-1] === b[j-1] ? prev : Math.min(prev, dp[j], dp[j-1]) + 1;
+      prev = tmp;
+    }
+  }
+  return dp[n];
+}
+
+// ============== CITATION EXTRACTION ==============
+// Handles diverse author-date citation formats:
+//   Smith (2020)                            — single, comma before year optional
+//   Smith, (2020)                           — APA variant
+//   Smith and Jones (2020)                  — "and" between authors
+//   Smith & Jones (2020)                    — "&" between authors
+//   Smith et al. (2020) / Smith et al 2020  — "et al." or "et al"
+//   (Smith, 2020) / (Smith 2020)            — parenthetical with/without comma
+//   (Smith and Jones, 2020)
+//   (Smith & Jones, 2020)
+//   (Smith et al., 2020) / (Smith et al. 2020)
+//   Multiple in one parenthesis, separated by ; , or :
+//   Authors with hyphens, apostrophes, accents, spaces (De Vane, Da Silva, Aboul-Maaty, O'Brien)
+//   "Author Initials Year" style: "Gower JC 1971" — handled in reference parsing, not body text
+
+function extractCitations(text) {
+  const citations = [];
+
+  // Surname pattern: starts with uppercase, allows accents, hyphens, apostrophes.
+  // For multi-word surnames like "De Vane", "Da Silva", "Van Der Berg", we need to allow
+  // optional lowercase particles. But we must NOT absorb preceding context words like "As", "By".
+  //
+  // Strategy: a surname is one uppercase word, optionally followed by either:
+  //   - a hyphenated continuation (e.g. "Flores-Chacón", "Baderinwa-Adejumo")
+  //   - a second uppercase word IF the second word is a recognised particle continuation
+  //     (this is rare; most multi-word surnames are hyphenated)
+  //
+  // For "De Vane", "Da Silva", "Van Der Berg" — these typically appear as "De Vane (1953)"
+  // in narrative form. We handle them by allowing surname tokens of the form:
+  //   [De|Da|Del|Von|Van|...] [A-Z][a-z]+
+  // The particle starts uppercase too because "De Vane" capitalises both.
+  //
+  // We anchor with word boundary or punctuation/whitespace start to avoid eating "As", "By", etc.
+
+  const surnameToken = "(?:(?:De|Da|Del|Della|Von|Van|Der|Den|Du|La|Le|St|St\\.|Mc|Mac|O')\\s)?[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019]+(?:-[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019]+)*";
+
+  // Year: 4 digits with optional a/b/c suffix
+  const yearToken = "\\d{4}[a-z]?";
+
+  // Combined author-separator: "and" OR "&"
+  const authorSep = "(?:and|&)";
+
+  // Anchor: surname must be preceded by start-of-text, whitespace, punctuation (but NOT a lowercase letter)
+  // We use a negative lookbehind for letters.
+  const anchor = "(?:^|(?<=[\\s\\(\\[\\{\\.,;:!?\"\u2018\u2019\u201C\u201D]))";
+
+  // Pattern 1: "Author et al. (Year)" or "Author et al (Year)" or "Author et al., (Year)"
+  const patEtAl = new RegExp(anchor + "(" + surnameToken + ")\\s+et\\s+al\\.?,?\\s*\\((" + yearToken + ")\\)", "g");
+
+  // Pattern 2: "Author and/& Author2 (Year)"
+  const patTwo = new RegExp(anchor + "(" + surnameToken + ")\\s+" + authorSep + "\\s+(" + surnameToken + ")\\s*,?\\s*\\((" + yearToken + ")\\)", "g");
+
+  // Pattern 3: "Author (Year)" or "Author, (Year)"
+  const patOne = new RegExp(anchor + "(" + surnameToken + ")\\s*,?\\s*\\((" + yearToken + ")\\)", "g");
+
+  // Pattern 4: Parenthetical citations
+  const patParen = /\(([^()]*\d{4}[^()]*)\)/g;
+
+  const consumed = [];
+  function overlaps(s, e) {
+    return consumed.some(([cs, ce]) => !(e <= cs || s >= ce));
+  }
+  function mark(s, e) { consumed.push([s, e]); }
+
+  const NON_AUTHOR = /^(Table|Tables|Figure|Figures|Fig|Figs|Plate|Plates|Plt|Section|Chapter|Appendix|Eq|Equation|Tab|Vol|No|Pg|Page|Eqn|Footnote|Note|cf|See|See also|p|pp|i\.e|e\.g|c|ca|approx|Supplementary|Supp|Step|Day|Days|Year|Years|Week|Weeks|Month|Months|January|February|March|April|May|June|July|August|September|October|November|December|Mon|Tue|Wed|Thu|Fri|Sat|Sun|circa|approximately|line|lines|Box|Boxes|Panel|Panels|As|By|In|If|For|And|Of|The|At|On|With|From|To|Per|This|That|These|Those|Such|Both|All|Some|Most|Many|Few|Edition|Editions|Ed|Eds|edn|edns)$/i;
+
+  // Additional check: surnames that are purely numeric+ordinal suffix ("22nd", "3rd", "10th") are not authors
+  const IS_ORDINAL = /^\d+(?:st|nd|rd|th)$/i;
+
+  let m;
+
+  // 1. et al. citations
+  patEtAl.lastIndex = 0;
+  while ((m = patEtAl.exec(text)) !== null) {
+    // m.index points to the start of the surname (due to lookbehind anchor)
+    const matchStart = m.index;
+    const matchEnd = m.index + m[0].length;
+    if (overlaps(matchStart, matchEnd)) continue;
+    if (NON_AUTHOR.test(m[1])) continue;
+    citations.push({
+      raw: m[0],
+      type: 'etal',
+      authors: [m[1]],
+      year: m[2],
+      pos: matchStart
+    });
+    mark(matchStart, matchEnd);
+  }
+
+  // 2. Two-author citations
+  patTwo.lastIndex = 0;
+  while ((m = patTwo.exec(text)) !== null) {
+    const matchStart = m.index;
+    const matchEnd = m.index + m[0].length;
+    if (overlaps(matchStart, matchEnd)) continue;
+    if (/^al\.?$/i.test(m[2])) continue;
+    if (NON_AUTHOR.test(m[1]) || NON_AUTHOR.test(m[2])) continue;
+    citations.push({
+      raw: m[0],
+      type: 'two',
+      authors: [m[1], m[2]],
+      year: m[3],
+      pos: matchStart
+    });
+    mark(matchStart, matchEnd);
+  }
+
+  // 3. Single author citations
+  patOne.lastIndex = 0;
+  while ((m = patOne.exec(text)) !== null) {
+    const matchStart = m.index;
+    const matchEnd = m.index + m[0].length;
+    if (overlaps(matchStart, matchEnd)) continue;
+    const surname = m[1];
+    if (NON_AUTHOR.test(surname)) continue;
+    citations.push({
+      raw: m[0],
+      type: 'one',
+      authors: [surname],
+      year: m[2],
+      pos: matchStart
+    });
+    mark(matchStart, matchEnd);
+  }
+
+  // 4. Parenthetical citations
+  patParen.lastIndex = 0;
+  while ((m = patParen.exec(text)) !== null) {
+    if (overlaps(m.index + 1, m.index + 1 + m[1].length)) continue;
+    const inside = m[1];
+
+    let parts = inside.split(/\s*;\s*/);
+    parts = parts.flatMap(part => {
+      const m2 = part.match(/^(.+?\d{4}[a-z]?)\s*:\s*([A-Z].+)$/);
+      if (m2 && /\d{4}/.test(m2[2])) {
+        return [m2[1], m2[2]];
+      }
+      return [part];
+    });
+
+    for (const part of parts) {
+      const p = part.trim();
+      const yearMatch = p.match(/(\d{4}[a-z]?)/);
+      if (!yearMatch) continue;
+      const year = yearMatch[1];
+      const yearPos = p.indexOf(yearMatch[0]);
+      let authorPart = p.substring(0, yearPos).replace(/[,.\s]+$/, '').trim();
+      if (!authorPart) continue;
+      if (/^(p\.|pp\.|page|pages|n\.|see|cf|but|and|or|in|of|for|the|a|an|N|n)$/i.test(authorPart)) continue;
+
+      // Strip leading prose: when a parenthetical contains commentary before the actual citation
+      // (e.g. "as argued for temperate woody species by Filartiga et al. 2022", or
+      //       "see Smith 2020", or "e.g. Jones 2019"), keep only the author portion.
+      // Strategy: find the LAST capitalised word (or "et al." pattern) before the year, since
+      // that's typically where the author starts.
+      //
+      // For "et al." citations, take the word immediately before "et al."
+      const etAlMatch = authorPart.match(/([A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+(?:-[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+)*)\s+et\s+al\.?/i);
+      if (etAlMatch) {
+        authorPart = etAlMatch[1] + ' et al.';
+      } else if (/\s(and|&)\s/i.test(authorPart)) {
+        // For two-author, take the last "Author and Author" or "Author & Author" segment
+        const twoMatch = authorPart.match(/([A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+(?:-[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+)*)\s+(?:and|&)\s+([A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+(?:-[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+)*)\s*$/i);
+        if (twoMatch) {
+          authorPart = twoMatch[1] + ' and ' + twoMatch[2];
+        }
+      } else {
+        // Single author — take last capitalised token sequence before year.
+        // Handles "Smith", "De Vane", "Da Silva", "Aboul-Maaty"
+        // SPECIAL CASE: if the author part starts with a known capitalised phrase
+        // that has 2+ consecutive capitalised words (like "R Core Team"), keep the whole phrase.
+        const corporateMatch = authorPart.match(/^((?:[A-Z][a-zA-Z]*\s+){1,3}[A-Z][a-zA-Z]+)\s*$/);
+        if (corporateMatch && /^[A-Z]/.test(authorPart) && !/\s(see|cf|e\.g|i\.e|as|by|for|in|the|argued|reported|noted|found)\s/i.test(authorPart)) {
+          // Looks like a corporate/multi-word author. Keep as-is.
+          authorPart = corporateMatch[1];
+        } else {
+          // Strip leading prose like "as argued for temperate woody species by Filartiga".
+          // Take the last capitalised token sequence.
+          const oneMatch = authorPart.match(/((?:(?:De|Da|Del|Della|Von|Van|Der|Den|Du|La|Le|St|St\.|Mc|Mac|O')\s)?[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+(?:-[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+)*)\s*$/);
+          if (oneMatch) {
+            authorPart = oneMatch[1];
+          }
+        }
+      }
+
+      if (/\bet\s+al\.?/i.test(authorPart)) {
+        const firstAuthor = authorPart.replace(/\s+et\s+al\.?/i, '').trim();
+        if (firstAuthor && !NON_AUTHOR.test(firstAuthor)) {
+          citations.push({
+            raw: '(' + p + ')',
+            type: 'etal',
+            authors: [firstAuthor],
+            year,
+            pos: m.index
+          });
+        }
+      } else if (/\s(and|&)\s/i.test(authorPart)) {
+        const splitMatch = authorPart.split(/\s+(?:and|&)\s+/i);
+        if (splitMatch.length === 2) {
+          const a = splitMatch[0].trim();
+          const b = splitMatch[1].trim();
+          if (a && b && !NON_AUTHOR.test(a) && !NON_AUTHOR.test(b)) {
+            citations.push({
+              raw: '(' + p + ')',
+              type: 'two',
+              authors: [a, b],
+              year,
+              pos: m.index
+            });
+          }
+        }
+      } else {
+        if (!NON_AUTHOR.test(authorPart) && /^[A-Z\u00C0-\u017F]/.test(authorPart) && authorPart.length > 1) {
+          citations.push({
+            raw: '(' + p + ')',
+            type: 'one',
+            authors: [authorPart],
+            year,
+            pos: m.index
+          });
+        }
+      }
+    }
+  }
+
+  return citations;
+}
+
+// ============== REFERENCE EXTRACTION ==============
+// Handles multiple reference list formats:
+//   UIMS:      "Surname, A.B. and Surname2, C.D. YEAR. Title. Journal vol.iss: pages."
+//   APA:       "Surname, A. B., & Surname2, C. D. (YEAR). Title. Journal, vol(iss), pages."
+//   No-comma:  "Gower JC (1971) Title. Journal vol:pages."
+//   Mixed:     "Surname A, Surname B, Surname C (2017) Title..."
+//   With DOI:  any of the above followed by https://doi.org/...
+
+function extractReferences(text) {
+  // Normalize line endings
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  // Split into reference blocks. Strategy:
+  // 1. Try splitting on blank lines first
+  // 2. If that gives too few blocks, fall back to per-line splitting with merge
+  let blocks = text.split(/\n\s*\n/).map(b => b.replace(/\n/g, ' ').trim()).filter(b => b.length > 0);
+
+  // Fallback: split per line and merge wrapped lines
+  if (blocks.length < 5) {
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    blocks = [];
+    let cur = '';
+    // A line starts a new reference if it begins with a capitalised surname pattern.
+    // Allow various formats:
+    //   "Surname, A.B."        — comma + initial (most common)
+    //   "Surname AB"           — surname followed by initials (no comma)
+    //   "Surname A,"           — surname + initial + comma
+    const startsRef = /^[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+(?:[- ][A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+)*(,\s*[A-Z]|\s+[A-Z]{1,3}[,.\s])/;
+    for (const line of lines) {
+      if (startsRef.test(line) && cur) {
+        blocks.push(cur.trim());
+        cur = line;
+      } else {
+        cur += (cur ? ' ' : '') + line;
+      }
+    }
+    if (cur) blocks.push(cur.trim());
+  }
+
+  const refs = [];
+  for (const block of blocks) {
+    // Find the first 4-digit year in the block
+    const yearM = block.match(/(?:^|[^\d])(?:\()?(\d{4}[a-z]?)(?:\))?(?=[\s.,)])/);
+    if (!yearM) continue;
+    const year = yearM[1];
+    const yearIdx = block.search(/\(?\d{4}/);
+
+    // Authors portion
+    let authorsPart = block.substring(0, yearIdx).replace(/[.,(\s]+$/, '').trim();
+    authorsPart = authorsPart.replace(/^\(/, '');
+
+    const surnames = [];
+
+    // Detect format by examining the START of the author string.
+    // The reliable signal is whether the first author has a comma immediately after the surname
+    // (before the initials), as in APA/UIMS "Surname, A.B.", OR has initials directly after
+    // the surname with no comma (as in "Gower JC" or "Kistler L").
+    //
+    // CRITICAL: surname continuation words must contain lowercase letters; otherwise initials
+    // like "AO" or "TA" will be wrongly captured as part of the surname.
+    //
+    // Surname token: uppercase letter, then one or more letters with at least one lowercase,
+    // optionally followed by hyphen-connected or space-connected continuations of the same form.
+    // We use a separate "lowercase-required" body pattern.
+    const lcWord = "[A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019]*[a-z\u00E0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]*";
+    // The surname must have lowercase letters somewhere (so "AO" can't match).
+    const fullSurname = "(?:" + lcWord + ")(?:[- ](?:" + lcWord + "))*";
+
+    // Pattern: leading surname followed by either ", I" (comma format) or " I" (no-comma format)
+    // OR followed by nothing (a corporate single-word author).
+    const firstAuthorRe = new RegExp("^(" + fullSurname + ")(\\s*,\\s*[A-Z]\\.?|\\s+[A-Z]{1,4}(?:\\s|,|$))");
+    const firstAuthorCheck = authorsPart.match(firstAuthorRe);
+    const isNoCommaFormat = firstAuthorCheck && /^\s+[A-Z]{1,4}/.test(firstAuthorCheck[2]);
+
+    if (isNoCommaFormat) {
+      // No-comma format: "Surname Initials, Surname2 Initials, ..."
+      // e.g. "Gower JC", "Mladenović E, Berenji J, Ognjanov V"
+      // e.g. "Kistler L, Montenegro Á, Smith BD, Gifford JA"
+      // e.g. "Baderinwa-Adejumo AO, Adenegan-Alakinde TA"
+      const patNoComma = new RegExp("(" + fullSurname + ")\\s+[A-Z]{1,4}(?=[\\s,]|$)", "g");
+      let sm;
+      while ((sm = patNoComma.exec(authorsPart)) !== null) {
+        const surname = sm[1];
+        if (!/^(and|et|al|of|in|the|with|by|for|R)$/i.test(surname)) {
+          surnames.push(surname);
+        }
+      }
+    } else {
+      // Comma format: "Surname, A.B." or "Surname, A. B., & Surname2, C. D."
+      // Pattern: surname followed by comma followed by uppercase initial
+      const patComma = /([A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+(?:[- ][A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+)*)\s*,\s*(?=[A-Z]\.?)/g;
+      let sm;
+      while ((sm = patComma.exec(authorsPart)) !== null) {
+        const surname = sm[1];
+        // Filter out obvious non-surnames
+        if (!/^(and|et|al|of|in|the|with|by|for|R|PS|N|JC|JA|RE|LA|BD|S|J)$/i.test(surname) && surname.length > 1) {
+          surnames.push(surname);
+        }
+      }
+
+      // Special case: corporate authors like "R Core Team" — captured as separate words.
+      // If the first "surname" was a single letter (e.g. "R") and the next was "Core",
+      // merge them into a single corporate author name.
+      // Better approach: check if authorsPart begins with a non-standard surname pattern
+      // like "R Core Team" before doing the regular extraction.
+      if (surnames.length > 0 && surnames[0].length <= 2) {
+        // Likely a false match (e.g. "R" from "R Core Team"). Replace with full leading phrase.
+        const corporateMatch = authorsPart.match(/^([A-Z][A-Za-z\s]+?)(?=\s*\(|\s*,|\s*$)/);
+        if (corporateMatch && corporateMatch[1].split(/\s+/).length >= 2) {
+          surnames[0] = corporateMatch[1].trim();
+        }
+      }
+    }
+
+    // Final fallback: if no surnames found yet, try to extract a corporate/single-name author.
+    // This handles cases like "R Core Team (2023)" or "WHO (2020)" — no initials, no commas.
+    if (surnames.length === 0) {
+      // Capture from start of string until the year position (everything in authorsPart).
+      // For multi-word corporate authors, keep the full phrase intact.
+      const cleaned = authorsPart.trim();
+      if (cleaned && /^[A-Z\u00C0-\u017F]/.test(cleaned)) {
+        // Take the whole thing as the author name, assuming it's a corporate/institutional author.
+        // Split into words and keep capitalised words plus connecting lowercase words.
+        const corporateMatch = cleaned.match(/^([A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019\s-]+?)(?=\s*$|\s*\(|\s*,)/);
+        if (corporateMatch) {
+          surnames.push(corporateMatch[1].trim());
+        } else {
+          // Last-ditch: just take the first capitalised word
+          const firstMatch = cleaned.match(/^([A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+(?:[- ][A-Z\u00C0-\u017F][a-zA-Z\u00C0-\u017F'\u2019-]+)*)/);
+          if (firstMatch && !/^(and|et|al|of|in|the)$/i.test(firstMatch[1])) {
+            surnames.push(firstMatch[1]);
+          }
+        }
+      }
+    }
+
+    if (surnames.length === 0) continue;
+
+    refs.push({
+      raw: block,
+      firstAuthor: surnames[0],
+      allAuthors: surnames,
+      year,
+      authorsPart
+    });
+  }
+  return refs;
+}
+
+// ============== MATCHING ==============
+
+function normalizeSurname(s) {
+  return s.toLowerCase()
+    .replace(/[\u00E0-\u00E5]/g, 'a')
+    .replace(/[\u00E8-\u00EB]/g, 'e')
+    .replace(/[\u00EC-\u00EF]/g, 'i')
+    .replace(/[\u00F2-\u00F6]/g, 'o')
+    .replace(/[\u00F9-\u00FC]/g, 'u')
+    .replace(/[\u00F1]/g, 'n')
+    .replace(/[\u00E7]/g, 'c')
+    .replace(/['\u2018\u2019\u0060\u00B4]/g, '')
+    .replace(/[\/\\]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function matchCitation(citation, refs) {
+  // Returns { status, refMatched, note }
+  // status: 'matched' | 'year-mismatch' | 'spelling-mismatch' | 'missing'
+
+  const firstAuthor = normalizeSurname(citation.authors[0]);
+  const citedYear = citation.year.replace(/[a-z]$/, ''); // 2022b -> 2022 for comparison
+  const citedSuffix = citation.year.match(/[a-z]$/) ? citation.year.slice(-1) : '';
+
+  // Step 1: exact surname + year (without suffix) match
+  let exactMatches = refs.filter(r =>
+    normalizeSurname(r.firstAuthor) === firstAuthor &&
+    r.year.replace(/[a-z]$/, '') === citedYear
+  );
+
+  // If cited as "Wang et al. (2022b)", prefer the ref with matching suffix.
+  // If cited as plain "Wang et al. (2022)" and multiple refs exist (2022a, 2022b),
+  // pick the one without suffix, or the first one.
+  if (exactMatches.length > 1) {
+    if (citedSuffix) {
+      const withSuffix = exactMatches.filter(r => r.year.toLowerCase().endsWith(citedSuffix));
+      if (withSuffix.length > 0) exactMatches = withSuffix;
+    } else {
+      const noSuffix = exactMatches.filter(r => !/[a-z]$/.test(r.year));
+      if (noSuffix.length > 0) exactMatches = noSuffix;
+    }
+  }
+
+  // For two-author citations, also verify second author
+  if (citation.type === 'two' && exactMatches.length > 0) {
+    const secondAuthor = normalizeSurname(citation.authors[1]);
+    const filtered = exactMatches.filter(r =>
+      r.allAuthors.some(a => normalizeSurname(a) === secondAuthor)
+    );
+    if (filtered.length > 0) exactMatches = filtered;
+  }
+
+  if (exactMatches.length > 0) {
+    return { status: 'matched', refMatched: exactMatches[0], note: 'Exact match' };
+  }
+
+  // Step 2: exact surname, wrong year
+  const surnameMatches = refs.filter(r => normalizeSurname(r.firstAuthor) === firstAuthor);
+  if (surnameMatches.length > 0) {
+    const yearsFound = surnameMatches.map(r => r.year).join(', ');
+    return {
+      status: 'year-mismatch',
+      refMatched: surnameMatches[0],
+      note: `Author found, but reference list has year(s): ${yearsFound}. Cited as: ${citation.year}`
+    };
+  }
+
+  // Step 2b: surname-prefix match for multi-word reference surnames.
+  // Handles cases like body cites "Che (2018)" but reference has "Che Amri (2018)".
+  // We match if the cited surname equals the first whitespace-separated word of the reference surname,
+  // AND the years match exactly. This is a strong signal of the same author.
+  const prefixMatches = refs.filter(r => {
+    const refSurnameWords = normalizeSurname(r.firstAuthor).split(/\s+/);
+    return refSurnameWords.length > 1 &&
+           refSurnameWords[0] === firstAuthor &&
+           r.year.replace(/[a-z]$/, '') === citedYear;
+  });
+  if (prefixMatches.length > 0) {
+    return {
+      status: 'matched',
+      refMatched: prefixMatches[0],
+      note: `Matched as prefix of multi-word surname "${prefixMatches[0].firstAuthor}"`
+    };
+  }
+
+  // Step 3: fuzzy surname match (Levenshtein distance ≤ 2 on first author)
+  // Tightened: require both reasonable surname similarity AND year within 2 years.
+  // This prevents Rowe (2015) from being matched to Gower (1971).
+  const fuzzyMatches = refs.filter(r => {
+    const d = lev(normalizeSurname(r.firstAuthor), firstAuthor);
+    if (d === 0 || d > 2) return false;
+    // Require length similarity (avoid matching very different names of similar Levenshtein distance)
+    if (Math.abs(r.firstAuthor.length - firstAuthor.length) > 2) return false;
+    // Require year proximity (within 2 years) so we don't get cross-decade false matches
+    const refYear = parseInt(r.year.replace(/[a-z]$/, ''), 10);
+    const cYear = parseInt(citedYear, 10);
+    if (Math.abs(refYear - cYear) > 2) return false;
+    return true;
+  });
+
+  if (fuzzyMatches.length > 0) {
+    // Prefer matches with same year if any
+    const sameYear = fuzzyMatches.filter(r => r.year.replace(/[a-z]$/, '') === citedYear);
+    const best = sameYear[0] || fuzzyMatches[0];
+    return {
+      status: 'spelling-mismatch',
+      refMatched: best,
+      note: `Possible spelling typo — "${citation.authors[0]}" in body vs "${best.firstAuthor}, ${best.year}" in list`
+    };
+  }
+
+  return { status: 'missing', refMatched: null, note: 'No matching reference found in the list' };
+}
+
+// ============== MAIN ==============
+
+let lastResults = null;
+
+function runCheck() {
+  const body = document.getElementById('bodyText').value;
+  const refList = document.getElementById('refList').value;
+
+  if (!body.trim() || !refList.trim()) {
+    alert('Please paste both the body text and the reference list before running the check.');
+    return;
+  }
+
+  const citations = extractCitations(body);
+  const refs = extractReferences(refList);
+
+  // Deduplicate citations by author+year and count occurrences
+  const citationMap = new Map();
+  for (const c of citations) {
+    const key = `${normalizeSurname(c.authors[0])}|${c.year}|${c.type}|${c.type === 'two' ? normalizeSurname(c.authors[1]) : ''}`;
+    if (citationMap.has(key)) {
+      citationMap.get(key).count++;
+    } else {
+      citationMap.set(key, { citation: c, count: 1 });
+    }
+  }
+  const uniqueCitations = Array.from(citationMap.values());
+
+  // Match each unique citation
+  const analyzed = uniqueCitations.map(item => {
+    const result = matchCitation(item.citation, refs);
+    return { ...item, ...result };
+  });
+
+  // Find uncited refs — references in the list that no citation matched.
+  // IMPORTANT: A reference is considered "cited" only if at least one citation
+  // exactly matches its first-author surname AND its year (ignoring a/b/c suffix
+  // on either side). This means:
+  //   - Matched citations DO mark their reference as cited.
+  //   - Year mismatches do NOT mark any reference as cited (the cited paper is
+  //     not actually in the list, so all candidate refs with that surname remain
+  //     candidates for "uncited" themselves only if no other citation matches them).
+  //   - Spelling mismatches do NOT mark the suggested reference as cited (because
+  //     we are not sure the typo was meant for that paper — could be a different one).
+  // To do this correctly, we build a fresh "cited set" by re-checking every
+  // citation against every reference using exact surname+year only.
+  const citedRefSet = new Set();
+  for (const a of analyzed) {
+    const firstAuthor = normalizeSurname(a.citation.authors[0]);
+    const yr = a.citation.year.replace(/[a-z]$/, '');
+    for (const r of refs) {
+      const refFirst = normalizeSurname(r.firstAuthor);
+      const refYr = r.year.replace(/[a-z]$/, '');
+      // Match if surname matches exactly OR if cited surname is the first word
+      // of a multi-word reference surname (e.g. body cites "Che" matches ref "Che Amri").
+      const surnameMatches = refFirst === firstAuthor ||
+        (refFirst.split(/\s+/).length > 1 && refFirst.split(/\s+/)[0] === firstAuthor);
+      if (surnameMatches && refYr === yr) {
+        // For two-author citations, also confirm second author matches if possible
+        if (a.citation.type === 'two') {
+          const second = normalizeSurname(a.citation.authors[1]);
+          const hasSecond = r.allAuthors.some(x => normalizeSurname(x) === second);
+          if (!hasSecond) continue;
+        }
+        citedRefSet.add(r.raw);
+      }
+    }
+  }
+  const uncited = refs.filter(r => !citedRefSet.has(r.raw));
+
+  // Calculate stats
+  const stats = {
+    matched: analyzed.filter(a => a.status === 'matched').length,
+    yearMismatch: analyzed.filter(a => a.status === 'year-mismatch').length,
+    spellingMismatch: analyzed.filter(a => a.status === 'spelling-mismatch').length,
+    missing: analyzed.filter(a => a.status === 'missing').length,
+    uncited: uncited.length,
+    totalUnique: analyzed.length,
+    totalRefs: refs.length
+  };
+  stats.compliance = analyzed.length === 0 ? 0 : Math.round((stats.matched / analyzed.length) * 100);
+
+  lastResults = { analyzed, uncited, stats };
+  renderResults(analyzed, uncited, stats);
+}
+
+function renderResults(analyzed, uncited, stats) {
+  // Sort: missing first, then year-mismatch, spelling, matched
+  const order = { 'missing': 0, 'year-mismatch': 1, 'spelling-mismatch': 2, 'matched': 3 };
+  analyzed.sort((a, b) => order[a.status] - order[b.status] || a.citation.authors[0].localeCompare(b.citation.authors[0]));
+
+  document.getElementById('statMatched').textContent = stats.matched;
+  document.getElementById('statYear').textContent = stats.yearMismatch;
+  document.getElementById('statSpelling').textContent = stats.spellingMismatch;
+  document.getElementById('statMissing').textContent = stats.missing;
+  document.getElementById('statUncited').textContent = stats.uncited;
+  document.getElementById('statUniqueCites').textContent = stats.totalUnique;
+  document.getElementById('statTotalRefs').textContent = stats.totalRefs;
+  document.getElementById('statCompliance').textContent = stats.compliance + '%';
+  document.getElementById('citationCount').textContent = stats.totalUnique;
+  document.getElementById('uncitedCount').textContent = stats.uncited;
+
+  // Citation table
+  const tbody = document.querySelector('#citationTable tbody');
+  tbody.innerHTML = '';
+  for (const a of analyzed) {
+    const tr = document.createElement('tr');
+    tr.className = a.status;
+    tr.dataset.type = a.status;
+    const badgeText = a.status === 'matched' ? 'Matched' :
+                      a.status === 'year-mismatch' ? 'Year Mismatch' :
+                      a.status === 'spelling-mismatch' ? 'Spelling' : 'Missing';
+    tr.innerHTML = `
+      <td><span class="badge ${a.status}">${badgeText}</span></td>
+      <td><strong>${escapeHTML(a.citation.raw)}</strong><br><small style="color:#666;">${escapeHTML(a.citation.authors.join(' and '))} ${a.citation.type === 'etal' ? 'et al.' : ''} (${a.citation.year})</small></td>
+      <td style="text-align:center;">${a.count}</td>
+      <td><small>${escapeHTML(a.note)}${a.refMatched ? '<br><em>Ref: ' + escapeHTML(truncate(a.refMatched.raw, 200)) + '</em>' : ''}</small></td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  // Uncited table
+  const utbody = document.querySelector('#uncitedTable tbody');
+  utbody.innerHTML = '';
+  for (const r of uncited) {
+    const tr = document.createElement('tr');
+    tr.className = 'uncited';
+    tr.innerHTML = `<td>${escapeHTML(r.raw)}</td>`;
+    utbody.appendChild(tr);
+  }
+
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+}
+
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function truncate(s, n) {
+  return s.length > n ? s.substring(0, n) + '…' : s;
+}
+
+// Filter checkboxes
+document.querySelectorAll('.filterChk').forEach(chk => {
+  chk.addEventListener('change', () => {
+    const enabled = new Set(
+      Array.from(document.querySelectorAll('.filterChk:checked')).map(c => c.dataset.type)
+    );
+    document.querySelectorAll('#citationTable tbody tr').forEach(tr => {
+      tr.style.display = enabled.has(tr.dataset.type) ? '' : 'none';
+    });
+  });
+});
+
+// ============== FILE LOADING ==============
+async function loadFile(file, targetTextarea) {
+  if (!file) return;
+  const ext = file.name.toLowerCase().split('.').pop();
+  if (ext === 'txt') {
+    const text = await file.text();
+    targetTextarea.value = text;
+  } else if (ext === 'docx') {
+    // Use mammoth.js loaded from CDN if available; otherwise tell user to paste
+    if (typeof mammoth === 'undefined') {
+      // Try to load mammoth dynamically
+      try {
+        await loadMammoth();
+      } catch(e) {
+        alert('Could not load .docx converter. Please copy and paste the text directly into the box.');
+        return;
+      }
+    }
+    const arrayBuffer = await file.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer });
+    targetTextarea.value = result.value;
+  } else {
+    alert('Unsupported file type. Please use .txt or .docx.');
+  }
+}
+
+function loadMammoth() {
+  return new Promise((resolve, reject) => {
+    if (typeof mammoth !== 'undefined') return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+document.getElementById('bodyFile').addEventListener('change', e => loadFile(e.target.files[0], document.getElementById('bodyText')));
+document.getElementById('refFile').addEventListener('change', e => loadFile(e.target.files[0], document.getElementById('refList')));
+
+// ============== DOWNLOAD REPORT ==============
+function downloadReport() {
+  if (!lastResults) {
+    alert('Please run a check first.');
+    return;
+  }
+  const { analyzed, uncited, stats } = lastResults;
+  const now = new Date().toLocaleString();
+
+  let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Reference Check Report</title>
+<style>
+body{font-family:'Times New Roman',Georgia,serif;max-width:1100px;margin:20px auto;padding:20px;color:#222;line-height:1.5}
+h1{text-align:center;color:#1a3a5c;border-bottom:2px solid #1a3a5c;padding-bottom:10px}
+h2{color:#1a3a5c;margin-top:30px;border-left:4px solid #1a3a5c;padding-left:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:20px 0}
+.stat-card{padding:15px;border-radius:6px;text-align:center;color:white}
+.stat-card .num{font-size:32px;font-weight:bold}
+.stat-card .label{font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-top:5px}
+.good{background:#28a745}.warn{background:#ffc107;color:#333}.bad{background:#dc3545}.info{background:#17a2b8}
+.dark{background:#1a3a5c}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th{background:#1a3a5c;color:white;padding:10px;text-align:left;font-size:14px}
+td{padding:8px 10px;border-bottom:1px solid #eee;font-size:13px;vertical-align:top}
+tr.matched{background:#e8f5e9}tr.year-mismatch{background:#fff3cd}tr.spelling-mismatch{background:#ffe4b5}
+tr.missing{background:#f8d7da}tr.uncited{background:#e1ecf4}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:bold}
+.badge.matched{background:#28a745;color:white}.badge.year-mismatch{background:#ffc107;color:#333}
+.badge.spelling-mismatch{background:#fd7e14;color:white}.badge.missing{background:#dc3545;color:white}
+.timestamp{text-align:center;color:#666;font-size:13px;margin-bottom:20px}
+</style></head><body>
+<h1>Thesis Reference Check Report</h1>
+<p class="timestamp">Generated: ${now}</p>
+<h2>Summary</h2>
+<div class="stats">
+<div class="stat-card good"><div class="num">${stats.matched}</div><div class="label">Matched</div></div>
+<div class="stat-card warn"><div class="num">${stats.yearMismatch}</div><div class="label">Year Mismatch</div></div>
+<div class="stat-card warn"><div class="num">${stats.spellingMismatch}</div><div class="label">Spelling</div></div>
+<div class="stat-card bad"><div class="num">${stats.missing}</div><div class="label">Missing</div></div>
+</div>
+<div class="stats">
+<div class="stat-card info"><div class="num">${stats.uncited}</div><div class="label">Uncited Refs</div></div>
+<div class="stat-card info"><div class="num">${stats.totalUnique}</div><div class="label">Unique Citations</div></div>
+<div class="stat-card info"><div class="num">${stats.totalRefs}</div><div class="label">Total References</div></div>
+<div class="stat-card dark"><div class="num">${stats.compliance}%</div><div class="label">Compliance</div></div>
+</div>
+<h2>Citation Analysis</h2>
+<table><thead><tr><th>Status</th><th>Citation</th><th>Times Cited</th><th>Notes</th></tr></thead><tbody>`;
+
+  for (const a of analyzed) {
+    const badgeText = a.status === 'matched' ? 'Matched' :
+                      a.status === 'year-mismatch' ? 'Year Mismatch' :
+                      a.status === 'spelling-mismatch' ? 'Spelling' : 'Missing';
+    html += `<tr class="${a.status}"><td><span class="badge ${a.status}">${badgeText}</span></td>
+<td><strong>${escapeHTML(a.citation.raw)}</strong></td>
+<td style="text-align:center">${a.count}</td>
+<td>${escapeHTML(a.note)}${a.refMatched ? '<br><em>Ref: ' + escapeHTML(truncate(a.refMatched.raw, 200)) + '</em>' : ''}</td>
+</tr>`;
+  }
+
+  html += `</tbody></table><h2>Uncited References</h2><table><thead><tr><th>Reference</th></tr></thead><tbody>`;
+  for (const r of uncited) {
+    html += `<tr class="uncited"><td>${escapeHTML(r.raw)}</td></tr>`;
+  }
+  html += `</tbody></table></body></html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `reference_check_report_${new Date().toISOString().slice(0,10)}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearAll() {
+  document.getElementById('bodyText').value = '';
+  document.getElementById('refList').value = '';
+  document.getElementById('results').classList.add('hidden');
+  lastResults = null;
+}
+
+function loadSample() {
+  document.getElementById('bodyText').value = `Mkhize et al. (2022) reviewed the state of bottle gourd genetic improvement in sub-Saharan Africa. According to Burton and De Vane (1953), heritability estimates can be calculated from variance components. Several studies (Maheshwari et al., 2020; Aladele et al., 2025) have documented the diversity of Lagenaria siceraria.
+
+The protocol followed Aboul-Maaty and Oraby (2019). Tripathy et al. (2023) reported similar findings. A more recent study by Patil et al. (2024) confirmed these results. Mashilo et al. (2021) reviewed the genetic resources of cucurbit species.
+
+Bonthala et al. (2021) developed SSR markers, and Heslop-Harrison and Schwarzacher (2022) reviewed polyploidy in plants.`;
+
+  document.getElementById('refList').value = `Aboul-Maaty, N. and Oraby, H. 2019. Extraction of high-quality genomic DNA from different plant orders applying a modified CTAB-based method. Bulletin of the National Research Centre 43.1:25-35.
+
+Bonthala, B., Singh, V., and Kumar, R. 2022. Genome-wide SSR markers for bottle gourd. Plant Genetic Resources 20.3:178-189.
+
+Burton, G. W. and De Vane, E. H. 1953. Estimating heritability in tall fescue (Festuca arundinacea) from replicated clonal material. Agronomy Journal 45.10:478-481.
+
+Heslop-Harrison, J. S., Schwarzacher, T., and Liu, Q. 2023. Polyploidy: its consequences and enabling role in plant diversification and evolution. Annals of Botany 131.1:1-10.
+
+Mashilo, J., Shimelis, H., and Odindo, A. 2022. Genetic resources of bottle gourd and citron watermelon for cultivar development. Genetic Resources and Crop Evolution 69.5:1671-1689.
+
+Mkhize, P., Shimelis, H., and Mashilo, J. 2022. Genetic improvement of bottle gourd in sub-Saharan Africa. Acta Agriculturae Scandinavica B 72.4:289-302.
+
+Patil, A., Kumar, R., and Singh, S. 2024. Recent advances in cucurbit breeding. Journal of Plant Breeding 78.2:134-149.
+
+Tripathi, S., Sharma, R., and Verma, K. 2023. Market dynamics of bottle gourd in northern India. Indian Journal of Agricultural Economics 78.1:45-58.`;
+}
+</script>
+
+<footer>
+  <h3>Academic Reference Checker</h3>
+  <p>Reference Verifier for Academic Writing</p>
+  <p>A free, browser-based citation verification tool for theses, dissertations, journal articles, and any academic document using author-date citation conventions.</p>
+  <p class="author">Developed by Dr. Yemisi Olagunju</p>
+  <p>Feedback, bug reports, and suggestions are welcome.</p>
+  <p class="small">This tool processes documents locally in your browser. No data is transmitted, stored, or logged anywhere.<br>
+  Free to use for academic and research purposes. © Dr. Yemisi Olagunju.</p>
+</footer>
+
+</body>
+</html>
